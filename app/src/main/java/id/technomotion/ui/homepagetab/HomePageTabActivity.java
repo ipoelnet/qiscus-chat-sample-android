@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.qiscus.sdk.Qiscus;
 
@@ -78,11 +79,20 @@ public class HomePageTabActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (viewPager.getCurrentItem() != 0) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1,false);
-        }else{
-            finish();
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            if (viewPager.getCurrentItem() != 0) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1,false);
+            }else{
+                finish();
+            }
+        } else {
+           //this.onBackPressed();
+            getSupportFragmentManager().popBackStack();
         }
+
+
+
 
     }
 }

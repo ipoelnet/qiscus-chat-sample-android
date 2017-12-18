@@ -61,4 +61,9 @@
             android:text="Start creating account on your sample app backend"
             android:textSize="16sp" />
     </LinearLayout>
+    <FrameLayout
+        android:id="@+id/frameContactLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </FrameLayout>
 </RelativeLayout>

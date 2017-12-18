@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
 import com.qiscus.sdk.data.remote.QiscusApi;
+import com.qiscus.sdk.ui.QiscusChatActivity;
 import com.qiscus.sdk.ui.QiscusGroupChatActivity;
 import com.qiscus.sdk.util.QiscusRxExecutor;
 import com.squareup.picasso.Picasso;
@@ -79,7 +80,8 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
         QiscusChatRoom savedChatRoom = Qiscus.getDataStore().getChatRoom(selectedRoom.getId());
 
         if (savedChatRoom != null) {
-            currentActivity.startActivity(QiscusGroupChatActivity.generateIntent(currentActivity, savedChatRoom));
+            startChat(savedChatRoom, currentActivity);
+
         } else {
             //fetching API when we dont have any qiscus chat room in qiscus database
             QiscusRxExecutor.execute(QiscusApi
@@ -88,8 +90,9 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
                         @Override
                         public void onSuccess(QiscusChatRoom qiscusChatRoom) {
                             Qiscus.getDataStore().addOrUpdate(qiscusChatRoom);
-                            currentActivity.startActivity(QiscusGroupChatActivity.
-                                    generateIntent(currentActivity, qiscusChatRoom));
+
+                            startChat(qiscusChatRoom, currentActivity);
+
                         }
 
                         @Override
@@ -97,6 +100,15 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
                             throwable.printStackTrace();
                         }
                     });
+        }
+    }
+
+    private void startChat(QiscusChatRoom qiscusChatRoom, Activity currentActivity) {
+        if (qiscusChatRoom.isGroup()) {
+            currentActivity.startActivity(QiscusGroupChatActivity.generateIntent(currentActivity, qiscusChatRoom));
+        }
+        else {
+            currentActivity.startActivity(QiscusChatActivity.generateIntent(currentActivity, qiscusChatRoom));
         }
     }
 }

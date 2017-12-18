@@ -15,9 +15,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,9 +22,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.qiscus.sdk.Qiscus;
@@ -35,14 +31,14 @@ import com.qiscus.sdk.Qiscus;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import id.technomotion.R;
 import id.technomotion.model.Person;
 import id.technomotion.repository.AlumnusRepository;
 import id.technomotion.repository.RepositoryTransactionListener;
 import id.technomotion.ui.privatechatcreation.ChatWithStrangerDialogFragment;
-import id.technomotion.ui.privatechatcreation.PrivateChatCreationActivity;
+import id.technomotion.ui.privatechatcreation.ContactDialogProfileFragment;
+import id.technomotion.ui.privatechatcreation.ContactProfileFragment;
 import id.technomotion.ui.privatechatcreation.RecyclerAdapter;
 import id.technomotion.ui.privatechatcreation.ViewHolder;
 import retrofit2.HttpException;
@@ -123,7 +119,12 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
     }
 
     @Override
-    public void onContactClicked(final String userEmail) {
+    public void onContactClicked(final Person user) {
+        ContactDialogProfileFragment dialogFragment = new ContactDialogProfileFragment(user);
+        dialogFragment.show(getActivity().getFragmentManager(),"ea");
+    }
+
+    public void onContactClicked2(final String userEmail) {
         new AlertDialog.Builder(getActivity())
                 .setTitle("Confirmation")
                 .setMessage("Are you sure to make a conversation with "+userEmail+" ?")
@@ -213,6 +214,19 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
 
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
+        final SearchView.OnCloseListener closeListener = new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                int count = getActivity().getSupportFragmentManager().getBackStackEntryCount();
+                Toast.makeText(getActivity().getBaseContext(),String.valueOf(count),Toast.LENGTH_SHORT).show();
+                if (count != 0) {
+                    getActivity().getSupportFragmentManager().popBackStack();}
+
+                return true;
+            }
+        };
+
+        searchView.setOnCloseListener(closeListener);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -272,4 +286,5 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
         super.onCreateOptionsMenu(menu, inflater);
 
     }
+
 }

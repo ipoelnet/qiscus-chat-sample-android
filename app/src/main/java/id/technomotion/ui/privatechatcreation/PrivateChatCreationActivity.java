@@ -1,6 +1,5 @@
 package id.technomotion.ui.privatechatcreation;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,14 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 import android.support.v7.widget.SearchView;
 
@@ -33,7 +28,6 @@ import id.technomotion.model.Person;
 import id.technomotion.repository.AlumnusRepository;
 import id.technomotion.repository.RepositoryTransactionListener;
 import id.technomotion.ui.groupchatcreation.GroupChatCreationActivity;
-import id.technomotion.ui.homepagetab.ContactFragment;
 import retrofit2.HttpException;
 
 /**
@@ -172,26 +166,30 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
 
     }
     @Override
-    public void onContactClicked(final String userEmail) {
-        if (userEmail.equals(GROUP_CHAT_ID))
+    public void onContactClicked(final Person user) {
+        if (user.getEmail().equals(GROUP_CHAT_ID))
         {
             startActivity(new Intent(this, GroupChatCreationActivity.class));
             finish();
         }
 
-        else if (userEmail.equals(STRANGER_CHAT_ID)) {
+        else if (user.getEmail().equals(STRANGER_CHAT_ID)) {
             ChatWithStrangerDialogFragment dialogFragment = new ChatWithStrangerDialogFragment(this);
             dialogFragment.show(getFragmentManager(),"show_group_name");
         }
         else {
-            new AlertDialog.Builder(this)
+
+            ContactDialogProfileFragment dialogFragment = new ContactDialogProfileFragment(user);
+            dialogFragment.show(getFragmentManager(),"ea");
+
+            /*new AlertDialog.Builder(this)
                     .setTitle("Confirmation")
-                    .setMessage("Are you sure to make a conversation with " + userEmail + " ?")
+                    .setMessage("Are you sure to make a conversation with " + user + " ?")
                     .setCancelable(true)
                     .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Qiscus.buildChatWith(userEmail)
+                            Qiscus.buildChatWith(user.getEmail())
                                     .build(PrivateChatCreationActivity.this, new Qiscus.ChatActivityBuilderListener() {
                                         @Override
                                         public void onSuccess(Intent intent) {
@@ -211,7 +209,7 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
                         }
-                    }).show();
+                    }).show();*/
         }
 
     }
