@@ -26,7 +26,7 @@
 
     <View
         android:id="@+id/underline"
-        android:background="@color/qiscus_light_grey"
+        android:background="@color/underlineGrey"
         android:layout_height="0.0001dp"
         android:layout_width="fill_parent"
         android:layout_above="@id/contacts_text"

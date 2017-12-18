@@ -20,7 +20,7 @@
             <com.qiscus.sdk.ui.view.QiscusCircularImageView
                 android:layout_width="97dp"
                 android:layout_height="97dp"
-                android:layout_margin="25dp"
+                android:layout_margin="16dp"
                 android:id="@+id/single_avatar"
                 android:src="@drawable/ic_default_avatar"
                 />
@@ -80,7 +80,7 @@
 
     <View
         android:id="@+id/underline"
-        android:background="#FF000000"
+        android:background="@color/underlineGrey"
         android:layout_height="0.0001dp"
         android:layout_alignParentBottom="true"
         android:layout_width="fill_parent"
@@ -98,22 +98,20 @@
             android:src="@drawable/ic_logout"
             android:id="@+id/logout_button"
             android:tint="@color/qiscus_red"
-
-            android:layout_marginRight="16dp"/>
+/>
         <TextView
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LOGOUT"
             android:id="@+id/logout_text"
-            android:textStyle="bold"
             android:textColor="@color/qiscus_red"
             android:textSize="24sp"/>
 
     </LinearLayout>
         <View
             android:id="@+id/underlineSecond"
-            android:background="#FF000000"
+            android:background="@color/underlineGrey"
             android:layout_height="0.0001dp"
             android:layout_alignParentBottom="true"
             android:layout_width="fill_parent"

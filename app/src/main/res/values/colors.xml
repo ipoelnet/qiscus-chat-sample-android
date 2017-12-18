@@ -7,4 +7,5 @@
     <color name="colorSplash">#2ACB6E</color>
     <color name="orangeIcon">#F2994A</color>
     <color name="emojiSafeYellow">#FFE8A3</color>
+    <color name="underlineGrey">#E0E0E0</color>
 </resources>
