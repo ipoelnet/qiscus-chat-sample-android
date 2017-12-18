@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,12 +35,17 @@ import android.widget.Toast;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusAccount;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import id.technomotion.R;
 import id.technomotion.ui.homepagetab.HomePageTabActivity;
+import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -230,15 +237,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 HttpException e = (HttpException) throwable;
                                 try {
                                     String errorMessage = e.response().errorBody().string();
+                                    JSONObject json = new JSONObject(errorMessage).getJSONObject("error");
+                                    String finalError = json.getString("message");
+                                    JSONArray detailedMessages = json.getJSONArray("detailed_messages");
+                                    if (detailedMessages != null) {
+                                        finalError = (String) detailedMessages.get(0);
+                                    }
+
                                     Log.e(TAG, errorMessage);
-                                    showError(errorMessage);
+                                    showError(finalError,"Login Error");
                                 } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                } catch (JSONException e1) {
                                     e1.printStackTrace();
                                 }
                             } else if (throwable instanceof IOException) { //Error from network
-                                showError("Can not connect to qiscus server!");
+                                showError("Can not connect to qiscus server!","Network Error");
                             } else { //Unknown error
-                                showError("Unexpected error!");
+                                showError("Unexpected error!","Unknown Error");
                             }
                         }
                     });
@@ -246,8 +262,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private void showError(String s) {
-        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    private void showError(String warning,String warningType) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle(warningType)
+                .setMessage(warning)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 
