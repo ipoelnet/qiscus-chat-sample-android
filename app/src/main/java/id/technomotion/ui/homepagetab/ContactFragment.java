@@ -22,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -38,7 +37,6 @@ import id.technomotion.repository.AlumnusRepository;
 import id.technomotion.repository.RepositoryTransactionListener;
 import id.technomotion.ui.privatechatcreation.ChatWithStrangerDialogFragment;
 import id.technomotion.ui.privatechatcreation.ContactDialogProfileFragment;
-import id.technomotion.ui.privatechatcreation.ContactProfileFragment;
 import id.technomotion.ui.privatechatcreation.RecyclerAdapter;
 import id.technomotion.ui.privatechatcreation.ViewHolder;
 import retrofit2.HttpException;
