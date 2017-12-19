@@ -53,13 +53,14 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.recent_conversation_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        SampleApp.getInstance().getChatroomHandler().setListener(this);
+
         View v = getView();
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerRecentConversation);
         linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -165,6 +166,7 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
     @Override
     public void onResume() {
         super.onResume();
+
         if (!Qiscus.hasSetupUser()) {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         } else {
@@ -175,8 +177,14 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onStart(){
+        SampleApp.getInstance().getChatroomHandler().setListener(this);
+        super.onStart();
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
         SampleApp.getInstance().getChatroomHandler().removeListener();
     }
     public void reloadRecentConversation() {
@@ -190,11 +198,15 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
     @Override
     public void onReceiveComment(QiscusComment comment) {
-        int commentId= comment.getRoomId();
+        int roomId= comment.getRoomId();
         boolean isNewRoom = true;
-        for(Room room: rooms) {
-            if ( room.getId() == commentId) {
+        int index= 0;
+        for(int i=0; i<rooms.size(); i++) {
+            Room room = rooms.get(i);
+            if ( room.getId() == roomId) {
                 int unread = room.getUnreadCounter();
+                Room newRoom = new Room(room.getId(),room.getName());
+
                 room.setUnreadCounter(unread+1);
                 room.setLatestConversation(comment.getMessage());
                 isNewRoom = false;
@@ -207,13 +219,18 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
                     finalDateFormat = dateFormat.format(comment.getTime());
                 }
                 room.setLastMessageTime(finalDateFormat);
-                rooms.remove(room);
+                room.setOnlineImage(room.getOnlineImage());
+
+
+                rooms.remove(i);
+                adapter.notifyDataSetChanged();
                 rooms.add(0,room);
+                adapter.notifyDataSetChanged();
             }
         }
 
         if (isNewRoom) {
-            Room room = new Room(commentId, comment.getRoomName());
+            Room room = new Room(roomId, comment.getRoomName());
             room.setLatestConversation(comment.getMessage());
             room.setOnlineImage(comment.getRoomAvatar());
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -229,7 +246,9 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
             room.setLastMessageTime(finalDateFormat);
             room.setUnreadCounter(1);
             rooms.add(0,room);
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
+
+
     }
 }
