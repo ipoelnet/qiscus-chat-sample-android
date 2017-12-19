@@ -74,6 +74,9 @@ public class RemoteRepository  implements Repository {
 
     private ArrayList<Person> parseAlumnus(JsonObject body) {
         ArrayList<Person> people = new ArrayList<>();
+        if (!Qiscus.hasSetupUser()) {
+            return people;
+        }
         String currentUsername = Qiscus.getQiscusAccount().getUsername();
         JsonArray userArray = body.get("results").getAsJsonObject().get("users").getAsJsonArray();
 

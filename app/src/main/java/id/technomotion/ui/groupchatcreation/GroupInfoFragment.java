@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -328,10 +329,12 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
             if (resultCode == Activity.RESULT_OK) {
                 Uri selectedImage = data.getData();
                 String imagePath = FileUtil.getRealPathFromUri(getContext(), selectedImage);
+
                 processImage(imagePath);
             }
         } else if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
+
                 Uri processedPhoto = (Uri.parse(QiscusCacheManager.getInstance().getLastImagePath()));
                 String imagePath = FileUtil.getRealPathFromUri(getContext(), processedPhoto);
 

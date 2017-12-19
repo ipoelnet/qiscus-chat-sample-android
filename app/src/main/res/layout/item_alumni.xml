@@ -48,6 +48,7 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/imageViewFrame"
             android:text="TextView"
+            android:textSize="18sp"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />

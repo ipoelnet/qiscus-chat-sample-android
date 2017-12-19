@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
+    private static final String DEFAULT_QISCUS_AVATAR ="https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/75r6s_jOHa/1507541871-avatar-mine.png" ;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -181,9 +182,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        final String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        String displayName = mDisplayNameView.getText().toString();
+        final String displayName = mDisplayNameView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -213,15 +214,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
             Qiscus.setUser(email,password)
-                    .withAvatarUrl("https://robohash.org/"+email+"/bgset_bg2/3.14160?set=set4")
                     .withUsername(displayName)
                     .save(new Qiscus.SetUserListener() {
                         @Override
                         public void onSuccess(QiscusAccount qiscusAccount) {
                             Log.d(TAG, "onSuccess: ");
-                            showProgress(false);
-                            startActivity(new Intent(LoginActivity.this, HomePageTabActivity.class));
-                            finish();
+                            Log.d("AVATAR",qiscusAccount.getAvatar());
+                            if (qiscusAccount.getAvatar().equals(DEFAULT_QISCUS_AVATAR)) {
+                                Qiscus.updateUser(displayName, "https://robohash.org/" + email + "/bgset_bg2/3.14160?set=set4",
+                                        new Qiscus.SetUserListener() {
+                                            @Override
+                                            public void onSuccess(QiscusAccount qiscusAccount) {
+                                                successLogin();
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable throwable) {
+
+                                            }
+                                        });
+                            }
+                            else
+                            {
+                                successLogin();
+                            }
+
                         }
 
                        // @Override
@@ -260,6 +277,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     });
 
         }
+    }
+
+    private void successLogin() {
+        showProgress(false);
+        startActivity(new Intent(LoginActivity.this, HomePageTabActivity.class));
+        finish();
     }
 
     private void showError(String warning,String warningType) {
