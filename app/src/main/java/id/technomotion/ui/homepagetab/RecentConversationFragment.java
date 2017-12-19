@@ -191,12 +191,13 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
     @Override
     public void onReceiveComment(QiscusComment comment) {
         int commentId= comment.getRoomId();
+        boolean isNewRoom = true;
         for(Room room: rooms) {
             if ( room.getId() == commentId) {
                 int unread = room.getUnreadCounter();
                 room.setUnreadCounter(unread+1);
                 room.setLatestConversation(comment.getMessage());
-
+                isNewRoom = false;
                 String finalDateFormat = "";
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 SimpleDateFormat dateFormatToday = new SimpleDateFormat("hh:mm a");
@@ -208,6 +209,25 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
                 room.setLastMessageTime(finalDateFormat);
 
             }
+        }
+
+        if (isNewRoom) {
+            Room room = new Room(commentId, comment.getRoomName());
+            room.setLatestConversation(comment.getMessage());
+            room.setOnlineImage(comment.getRoomAvatar());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat dateFormatToday = new SimpleDateFormat("hh:mm a");
+            Date messageDate = comment.getTime();
+            String finalDateFormat = "";
+            if (DateUtils.isToday(messageDate.getTime())) {
+                finalDateFormat = dateFormatToday.format(messageDate);
+            }
+            else {
+                finalDateFormat = dateFormat.format(messageDate);
+            }
+            room.setLastMessageTime(finalDateFormat);
+            room.setUnreadCounter(1);
+            rooms.add(0,room);
         }
         adapter.notifyDataSetChanged();
     }

@@ -1,6 +1,7 @@
 package id.technomotion.util;
 
 import android.support.v4.util.Pair;
+import android.util.Log;
 
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.local.QiscusCacheManager;
@@ -33,9 +34,11 @@ public class RealTimeChatroomHandler {
 
 
     private void triggerListener(QiscusComment comment) {
+        Log.d("TAG","YEAH");
         if (listener != null) {
             listener.onReceiveComment(comment);
         }
+
     }
 
     public interface Listener {
