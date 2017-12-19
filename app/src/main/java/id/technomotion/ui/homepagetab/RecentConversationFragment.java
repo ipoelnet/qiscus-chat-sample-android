@@ -207,7 +207,8 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
                     finalDateFormat = dateFormat.format(comment.getTime());
                 }
                 room.setLastMessageTime(finalDateFormat);
-
+                rooms.remove(room);
+                rooms.add(0,room);
             }
         }
 
