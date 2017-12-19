@@ -3,6 +3,7 @@ package id.technomotion.ui.privatechatcreation;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -18,6 +19,10 @@ import android.widget.Toast;
 import android.support.v7.widget.SearchView;
 
 import com.qiscus.sdk.Qiscus;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -229,22 +234,48 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
                             HttpException e = (HttpException) throwable;
                             try {
                                 String errorMessage = e.response().errorBody().string();
-                                //Log.e(TAG, errorMessage);
-                                showError(errorMessage);
+                                JSONObject json = new JSONObject(errorMessage).getJSONObject("error");
+                                String finalError = json.getString("message");
+                                JSONArray detailedMessages = json.getJSONArray("detailed_messages");
+                                if (detailedMessages != null) {
+                                    finalError = (String) detailedMessages.get(0);
+                                }
+                                showError(finalError,"Chat Error");
                             } catch (IOException e1) {
+                                e1.printStackTrace();
+                            } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
                         } else if (throwable instanceof IOException) { //Error from network
-                            showError("Can not connect to qiscus server!");
+                            showError("Can not connect to qiscus server!","Network Error");
                         } else { //Unknown error
-                            showError("Unexpected error!");
+                            showError("Unexpected error!","Unknown Error");
                         }
                     }
                 });
     }
 
-    private void showError(String error) {
-        Toast.makeText(this,error,Toast.LENGTH_SHORT).show();
+    private void showError(String warning,String warningType) {
+        android.support.v7.app.AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new android.support.v7.app.AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new android.support.v7.app.AlertDialog.Builder(this);
+        }
+        builder.setTitle(warningType)
+                .setMessage(warning)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with delete
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
     public boolean onOptionsItemSelected(MenuItem item){
         if (item.getItemId() == R.id.action_search)
