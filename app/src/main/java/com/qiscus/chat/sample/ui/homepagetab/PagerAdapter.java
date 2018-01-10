@@ -23,9 +23,6 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 RecentConversationFragment tab1 = new RecentConversationFragment();
                 return tab1;
-            case 1:
-                ContactFragment tab2 = new ContactFragment();
-                return tab2;
             default:
                 return null;
         }
