@@ -9,6 +9,7 @@ import com.qiscus.chat.sample.util.QiscusInterceptBuilder;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.NotificationClickListener;
 import com.qiscus.sdk.data.model.QiscusComment;
+import com.qiscus.sdk.data.model.QiscusDeleteCommentConfig;
 import com.qiscus.sdk.event.QiscusCommentReceivedEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,8 +38,10 @@ public class SampleApp extends Application {
         INSTANCE = this;
         Qiscus.init(this, Configuration.QISCUS_APP_ID);
         chatroomHandler = new RealTimeChatroomHandler();
-
+        QiscusDeleteCommentConfig commentConfig = new QiscusDeleteCommentConfig();
+        commentConfig.setEnableDeleteComment(true);
         Qiscus.getChatConfig()
+                .setDeleteCommentConfig(commentConfig)
                 .setStatusBarColor(R.color.colorPrimaryDark)
                 .setAppBarColor(R.color.colorPrimary)
                 .setLeftBubbleColor(R.color.emojiSafeYellow)

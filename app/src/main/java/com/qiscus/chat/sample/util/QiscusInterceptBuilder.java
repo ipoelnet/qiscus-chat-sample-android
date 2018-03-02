@@ -54,7 +54,7 @@ public class QiscusInterceptBuilder implements QiscusNotificationBuilderIntercep
         Intent openIntent = new Intent("com.qiscus.OPEN_COMMENT_PN");
         openIntent.putExtra("data", qiscusComment);
         pendingIntent = PendingIntent.getBroadcast(SampleApp.getInstance().getBaseContext(),
-                qiscusComment.getRoomId(), openIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                (int)qiscusComment.getRoomId(), openIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         Map<String, QiscusRoomMember> members = new HashMap<>();
         if (room != null) {
@@ -121,7 +121,7 @@ public class QiscusInterceptBuilder implements QiscusNotificationBuilderIntercep
                 try {
                     NotificationManagerCompat.from(SampleApp
                             .getInstance().getApplicationContext())
-                            .notify(qiscusComment.getRoomId(), notificationBuilder.build());
+                            .notify((int)qiscusComment.getRoomId(), notificationBuilder.build());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

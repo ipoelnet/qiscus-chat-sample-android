@@ -67,7 +67,7 @@ public class ChatRoomNavigator {
 
     private static void openQiscusCommentRoom(final ChatRoomActivityBuilder builder) {
 
-        ChatRoomProvider.getChatRoom(builder.qiscusComment.getRoomId(),
+        ChatRoomProvider.getChatRoom((int) builder.qiscusComment.getRoomId(),
                 new ChatRoomProvider.Callback<QiscusChatRoom>() {
             @Override
             public void onCall(QiscusChatRoom qiscusChatRoom) {
@@ -82,7 +82,7 @@ public class ChatRoomNavigator {
     }
 
     private static void openChatRoom(final ChatRoomActivityBuilder builder) {
-        ChatRoomProvider.getChatRoom(builder.qiscusChatRoom.getId(),
+        ChatRoomProvider.getChatRoom((int)builder.qiscusChatRoom.getId(),
                 new ChatRoomProvider.Callback<QiscusChatRoom>() {
                     @Override
                     public void onCall(QiscusChatRoom qiscusChatRoom) {
