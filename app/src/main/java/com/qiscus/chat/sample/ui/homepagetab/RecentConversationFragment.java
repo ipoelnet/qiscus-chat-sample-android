@@ -135,7 +135,7 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
                         }
                         for (int i = 0; i < qiscusChatRooms.size(); i++) {
                             QiscusChatRoom currentChatRoom = qiscusChatRooms.get(i);
-                            Room room = new Room(currentChatRoom.getId(), qiscusChatRooms.get(i).getName());
+                            Room room = new Room((int) currentChatRoom.getId(), qiscusChatRooms.get(i).getName());
                             room.setLatestConversation(currentChatRoom.getLastComment().getMessage());
                             room.setOnlineImage(currentChatRoom.getAvatarUrl());
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -197,7 +197,7 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
     @Override
     public void onReceiveComment(QiscusComment comment) {
-        int roomId= comment.getRoomId();
+        int roomId= (int) comment.getRoomId();
         boolean isNewRoom = true;
         int index= 0;
         for(int i=0; i<rooms.size(); i++) {
