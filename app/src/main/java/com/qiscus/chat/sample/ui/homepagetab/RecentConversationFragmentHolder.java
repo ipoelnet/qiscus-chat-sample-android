@@ -29,7 +29,6 @@ import com.qiscus.chat.sample.model.Room;
 
 public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private static final String TAG = "ViewHolder";
-    private final ImageView picturePlatformType;
     private TextView itemName;
     private TextView itemJob;
     private com.qiscus.sdk.ui.view.QiscusCircularImageView picture;
@@ -46,7 +45,6 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
         lastMessageTime = (TextView) itemView.findViewById(R.id.textViewRoomTime);
         unreadCounter = (TextView) itemView.findViewById(R.id.unreadCounterView);
         unreadFrame = (FrameLayout) itemView.findViewById(R.id.unreadCounterFrame);
-        picturePlatformType = (QiscusCircularImageView) itemView.findViewById(R.id.img_platfrom_type);
         itemView.setOnClickListener(this);
     }
 
@@ -70,19 +68,6 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
         String imagePath = "http://lorempixel.com/200/200/people/" + room.getName();
         imagePath = room.getOnlineImage();
         Picasso.with(this.picture.getContext()).load(imagePath).fit().centerCrop().into(picture);
-        loadImageBasedOnPlatformType(imagePath);
-    }
-
-    private void loadImageBasedOnPlatformType(String imagePath) {
-        if (imagePath.contains(Configuration.LINE_TYPE)) {
-            picturePlatformType.setVisibility(View.VISIBLE);
-            picturePlatformType.setImageResource(R.drawable.ic_line);
-        } else if (imagePath.contains(Configuration.FB_TYPE)) {
-            picturePlatformType.setVisibility(View.VISIBLE);
-            picturePlatformType.setImageResource(R.drawable.ic_fb);
-        } else {
-            picturePlatformType.setVisibility(View.GONE);
-        }
     }
 
     @Override
