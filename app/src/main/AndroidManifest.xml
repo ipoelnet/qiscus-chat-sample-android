@@ -38,6 +38,10 @@
             android:name="com.qiscus.chat.sample.ui.homepagetab.HomePageTabActivity"
             android:theme="@style/TabTheme" />
         <activity android:name="com.qiscus.chat.sample.ui.homepagetab.ProfileActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBSWs1GBTWfmDeyLJqRFysC5oaM-u_RPJw"/>
     </application>
 
 </manifest>

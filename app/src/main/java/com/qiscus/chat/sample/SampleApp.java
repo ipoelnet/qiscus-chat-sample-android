@@ -56,6 +56,7 @@ public class SampleApp extends Application {
                                 .start();
                     }
                 })
+                .setEnableAddLocation(true)
                 .setEmptyRoomTitleColor(R.color.orangeIcon)
                 .setAccentColor(R.color.colorAccent)
                 .getDeleteCommentConfig().setEnableDeleteComment(true);
