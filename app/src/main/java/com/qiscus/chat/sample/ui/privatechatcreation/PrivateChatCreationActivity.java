@@ -70,8 +70,9 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
         ArrayList<Person> alumnusListTemp = alumnusRepository.getCachedData();
         alumnusList = new ArrayList<Person>(alumnusListTemp);
         //alumnusList = alumnusRepository.getCachedData();
-        alumnusList.add(0,groupChatHolder);
-        alumnusList.add(1,strangerChatHolder);
+        //TODO enable group chat when sdk support group e2e encryption
+        //alumnusList.add(0,groupChatHolder);
+        alumnusList.add(0,strangerChatHolder);
 
         mAdapter = new RecyclerAdapter(alumnusList, this);
         mRecyclerView.setAdapter(mAdapter);
