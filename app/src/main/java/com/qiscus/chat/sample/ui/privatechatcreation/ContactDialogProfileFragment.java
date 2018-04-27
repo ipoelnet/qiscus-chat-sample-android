@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
-import com.squareup.picasso.Picasso;
 
 import com.qiscus.chat.sample.R;
 import com.qiscus.chat.sample.model.Person;
@@ -57,7 +57,7 @@ public class ContactDialogProfileFragment extends DialogFragment implements View
         contactEmail.setText(inputContact.getEmail());
         contactAvatar = (ImageView) rootView.findViewById(R.id.contact_picture);
         String avatarUrl = inputContact.getAvatarUrl();
-        Picasso.with(this.contactAvatar.getContext()).load(avatarUrl).fit().centerCrop().into(contactAvatar);
+        Nirmana.getInstance().get().load(avatarUrl).centerCrop().into(contactAvatar);
 
         startChat = (RelativeLayout) rootView.findViewById(R.id.startChat);
 

@@ -7,10 +7,9 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import com.qiscus.chat.sample.R;
 import com.qiscus.chat.sample.model.SelectableContact;
+import com.qiscus.nirmana.Nirmana;
 
 /**
  * Created by omayib on 05/11/17.
@@ -53,7 +52,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         this.itemName.setText(person.getName());
         this.itemJob.setText(person.getJob());
         String avatarUrl = person.getAvatarUrl();
-        Picasso.with(this.picture.getContext()).load(avatarUrl).fit().centerCrop().into(picture);
+        Nirmana.getInstance().get().load(avatarUrl).centerCrop().into(picture);
         //Picasso.with(this.picture.getContext()).load("http://lorempixel.com/200/200/people/"+ person.getName()).into(picture);
     }
 

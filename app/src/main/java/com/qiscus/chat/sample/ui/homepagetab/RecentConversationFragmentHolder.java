@@ -1,32 +1,22 @@
 package com.qiscus.chat.sample.ui.homepagetab;
 
-/**
- * Created by asyrof on 17/11/17.
- */
-
-
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.qiscus.chat.sample.util.ChatRoomNavigator;
-import com.qiscus.chat.sample.util.ChatRoomProvider;
-import com.qiscus.chat.sample.util.Configuration;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.ui.view.QiscusCircularImageView;
-import com.squareup.picasso.Picasso;
-
 
 import com.qiscus.chat.sample.R;
 import com.qiscus.chat.sample.model.Room;
+import com.qiscus.chat.sample.util.ChatRoomNavigator;
+import com.qiscus.chat.sample.util.ChatRoomProvider;
+import com.qiscus.nirmana.Nirmana;
+import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.sdk.ui.view.QiscusCircularImageView;
 
 /**
  * Created by omayib on 30/10/17.
  */
-
 public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private static final String TAG = "ViewHolder";
     private TextView itemName;
@@ -39,12 +29,12 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
 
     public RecentConversationFragmentHolder(View itemView) {
         super(itemView);
-        itemName = (TextView) itemView.findViewById(R.id.textViewRoomName);
-        itemJob = (TextView) itemView.findViewById(R.id.textViewJob);
-        picture = (QiscusCircularImageView) itemView.findViewById(R.id.imageViewRoomAvatar);
-        lastMessageTime = (TextView) itemView.findViewById(R.id.textViewRoomTime);
-        unreadCounter = (TextView) itemView.findViewById(R.id.unreadCounterView);
-        unreadFrame = (FrameLayout) itemView.findViewById(R.id.unreadCounterFrame);
+        itemName = itemView.findViewById(R.id.textViewRoomName);
+        itemJob = itemView.findViewById(R.id.textViewJob);
+        picture = itemView.findViewById(R.id.imageViewRoomAvatar);
+        lastMessageTime = itemView.findViewById(R.id.textViewRoomTime);
+        unreadCounter = itemView.findViewById(R.id.unreadCounterView);
+        unreadFrame = itemView.findViewById(R.id.unreadCounterFrame);
         itemView.setOnClickListener(this);
     }
 
@@ -65,9 +55,8 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
         } else {
             this.unreadFrame.setVisibility(View.GONE);
         }
-        String imagePath = "http://lorempixel.com/200/200/people/" + room.getName();
-        imagePath = room.getOnlineImage();
-        Picasso.with(this.picture.getContext()).load(imagePath).fit().centerCrop().into(picture);
+        String imagePath = room.getOnlineImage();
+        Nirmana.getInstance().get().load(imagePath).centerCrop().into(picture);
     }
 
     @Override

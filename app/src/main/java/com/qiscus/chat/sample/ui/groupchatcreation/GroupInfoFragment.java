@@ -29,13 +29,13 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.local.QiscusCacheManager;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
 import com.qiscus.sdk.data.remote.QiscusApi;
 import com.qiscus.sdk.ui.QiscusGroupChatActivity;
 import com.qiscus.sdk.util.QiscusImageUtil;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -345,7 +345,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
                 avatarUrl = uri;
                 ImageView groupPictureHolder = (ImageView) getView().findViewById(R.id.group_avatar);
 
-                Picasso.with(groupPictureHolder.getContext()).load(avatarUrl).fit().centerCrop().into(groupPictureHolder);
+                Nirmana.getInstance().get().load(avatarUrl).centerCrop().into(groupPictureHolder);
                 showProgress(false);
             }
 
@@ -358,7 +358,8 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
     }
 
     public void sendFile(File file, final Callback callback) {
-        QiscusApi.getInstance().uploadFile(file, new QiscusApi.ProgressListener() {
+        //TODO you can not use QiscusUploader anymore, because the file encrypted
+        /*QiscusApi.getInstance().uploadFile(file, new QiscusApi.ProgressListener() {
             @Override
             public void onProgress(long total) {
 
@@ -382,7 +383,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
                     public void call(Throwable throwable) {
                         callback.onFailiedGetUri(throwable);
                     }
-                });
+                });*/
     }
 
     public void showToast(String message) {

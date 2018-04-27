@@ -5,10 +5,9 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import com.qiscus.chat.sample.R;
 import com.qiscus.chat.sample.model.Person;
+import com.qiscus.nirmana.Nirmana;
 
 /**
  * Created by asyrof on 04/12/17.
@@ -40,7 +39,7 @@ public class SelectedViewHolder extends RecyclerView.ViewHolder implements View.
         this.selectedContact = person;
         this.itemName.setText(person.getName());
         String avatarUrl = person.getAvatarUrl();
-        Picasso.with(this.picture.getContext()).load(avatarUrl).fit().centerCrop().into(picture);
+        Nirmana.getInstance().get().load(avatarUrl).centerCrop().into(picture);
         //Picasso.with(this.picture.getContext()).load("http://lorempixel.com/200/200/people/"+ person.getName()).into(picture);
     }
 

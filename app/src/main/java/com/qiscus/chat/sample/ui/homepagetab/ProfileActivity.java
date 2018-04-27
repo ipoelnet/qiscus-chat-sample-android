@@ -19,12 +19,12 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.local.QiscusCacheManager;
 import com.qiscus.sdk.data.model.QiscusAccount;
 import com.qiscus.sdk.data.remote.QiscusApi;
 import com.qiscus.sdk.util.QiscusImageUtil;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         uploadIcon = (com.qiscus.sdk.ui.view.QiscusCircularImageView) findViewById(R.id.upload_icon);
         uploadIcon.setOnClickListener(this);
         String avatarUrl = qiscusAccount.getAvatar();
-        Picasso.with(this.picture.getContext()).load(avatarUrl).fit().centerCrop().into(picture);
+        Nirmana.getInstance().get().load(avatarUrl).centerCrop().into(picture);
     }
 
     @Override
@@ -193,7 +193,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 Qiscus.updateUser(qiscusAccount.getUsername(), uri, new Qiscus.SetUserListener() {
                     @Override
                     public void onSuccess(QiscusAccount qiscusAccount) {
-                        Picasso.with(getBaseContext()).load(uri).fit().centerCrop().into(picture);
+                        Nirmana.getInstance().get().load(uri).centerCrop().into(picture);
                         showProgress(false);
                     }
 
@@ -215,7 +215,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void sendFile(File file, final ProfileActivity.Callback callback) {
-        QiscusApi.getInstance().uploadFile(file, new QiscusApi.ProgressListener() {
+        //TODO you can not use Qiscus uploader anymore, because the file encrypted
+        /*QiscusApi.getInstance().uploadFile(file, new QiscusApi.ProgressListener() {
             @Override
             public void onProgress(long total) {
 
@@ -239,7 +240,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     public void call(Throwable throwable) {
                         callback.onFailiedGetUri(throwable);
                     }
-                });
+                });*/
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
