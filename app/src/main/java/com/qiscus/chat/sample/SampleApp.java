@@ -34,6 +34,7 @@ public class SampleApp extends Application {
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
+        Qiscus.setEnableLog(BuildConfig.DEBUG);
         Qiscus.init(this, Configuration.QISCUS_APP_ID);
         chatroomHandler = new RealTimeChatroomHandler();
 
