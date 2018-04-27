@@ -108,7 +108,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void logout() {
         Qiscus.clearUser();
-        startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+        startActivity(
+                new Intent(ProfileActivity.this, LoginActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        );
     }
 
     private void openCamera() {
