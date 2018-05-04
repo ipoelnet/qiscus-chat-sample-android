@@ -1,9 +1,9 @@
 # Qiscus Android Sample App
 
-![login](https://i.imgur.com/D01iD8f.png?1)
-![list room](https://i.imgur.com/f4EVBuw.png?1)
-![new chat](https://i.imgur.com/6coeNuZ.png?1)
-![room chat](https://i.imgur.com/FADRzYM.png?1)
+![login](https://i.imgur.com/D01iD8f.png?5)
+![list room](https://i.imgur.com/f4EVBuw.png?3)
+![new chat](https://i.imgur.com/6coeNuZ.png?2)
+![room chat](https://i.imgur.com/FADRzYM.png?2)
 
 ## Sample Android App Features
 - [x] Splash/Launch Screen
