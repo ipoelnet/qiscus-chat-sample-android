@@ -8,7 +8,6 @@ import retrofit2.http.GET;
 /**
  * Created by asyrof on 20/11/17.
  */
-
 public interface ApiService {
 
     @GET("/api/contacts?show_all=true")

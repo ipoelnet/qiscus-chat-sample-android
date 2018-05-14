@@ -1,8 +1,9 @@
 package com.qiscus.chat.ngobrel.repository;
+
 import android.support.annotation.NonNull;
 
-
 import com.qiscus.chat.ngobrel.util.Configuration;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -10,9 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author yuana <andhikayuana@gmail.com>
  * @since 10/14/17
  */
-
 public class RestClient {
-    private String url= Configuration.BASE_URL;
+    private String url = Configuration.BASE_URL;
     private static RestClient ourInstance;
 
     private RestClient() {

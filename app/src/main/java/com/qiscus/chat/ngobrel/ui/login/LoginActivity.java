@@ -32,6 +32,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.qiscus.chat.ngobrel.R;
+import com.qiscus.chat.ngobrel.ui.homepagetab.HomePageTabActivity;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusAccount;
 
@@ -43,23 +45,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qiscus.chat.ngobrel.R;
-import com.qiscus.chat.ngobrel.ui.homepagetab.HomePageTabActivity;
-
 import retrofit2.HttpException;
 
 import static android.Manifest.permission.READ_CONTACTS;
-/*
-* dummy user
-* 1. Haris@email.com/user1234
-* 2. Anang@email.com/user1234
-* 3. Satya@email.com/user1234
-* 4. Henri@email.com/user1234
-* 5. Desi@email.com/user1234
-* 6. Sutris@email.com/user1234
-* 7. Dina@email.com/user1234
-* 8. Winda@email.com/user1234
-* */
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -77,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
-    private static final String DEFAULT_QISCUS_AVATAR ="https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/75r6s_jOHa/1507541871-avatar-mine.png" ;
+    private static final String DEFAULT_QISCUS_AVATAR = "https://d1edrlpyc25xu0.cloudfront.net/kiwari-prod/image/upload/75r6s_jOHa/1507541871-avatar-mine.png";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -96,10 +85,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView = findViewById(R.id.email);
         populateAutoComplete();
-        mDisplayNameView = (EditText) findViewById(R.id.display_name);
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mDisplayNameView = findViewById(R.id.display_name);
+        mPasswordView = findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -111,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton = findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,13 +202,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
-            Qiscus.setUser(email,password)
+            Qiscus.setUser(email, password)
                     .withUsername(displayName)
                     .save(new Qiscus.SetUserListener() {
                         @Override
                         public void onSuccess(QiscusAccount qiscusAccount) {
                             Log.d(TAG, "onSuccess: ");
-                            Log.d("AVATAR",qiscusAccount.getAvatar());
+                            Log.d("AVATAR", qiscusAccount.getAvatar());
                             if (qiscusAccount.getAvatar().equals(DEFAULT_QISCUS_AVATAR)) {
                                 Qiscus.updateUser(displayName, "https://robohash.org/" + email + "/bgset_bg2/3.14160?set=set4",
                                         new Qiscus.SetUserListener() {
@@ -233,19 +222,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                                             }
                                         });
-                            }
-                            else
-                            {
+                            } else {
                                 successLogin();
                             }
 
                         }
 
-                       // @Override
-                       // public void onError(Throwable throwable) {
-                       //     showProgress(false);
-                       //     Log.e(TAG, "onError: ",throwable );
-                       // }
+                        // @Override
+                        // public void onError(Throwable throwable) {
+                        //     showProgress(false);
+                        //     Log.e(TAG, "onError: ",throwable );
+                        // }
 
                         @Override
                         public void onError(Throwable throwable) {
@@ -256,22 +243,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     String errorMessage = e.response().errorBody().string();
                                     JSONObject json = new JSONObject(errorMessage).getJSONObject("error");
                                     String finalError = json.getString("message");
-                                    if (json.has("detailed_messages") ) {
+                                    if (json.has("detailed_messages")) {
                                         JSONArray detailedMessages = json.getJSONArray("detailed_messages");
                                         finalError = (String) detailedMessages.get(0);
                                     }
 
                                     Log.e(TAG, errorMessage);
-                                    showError(finalError,"Login Error");
+                                    showError(finalError, "Login Error");
                                 } catch (IOException e1) {
                                     e1.printStackTrace();
                                 } catch (JSONException e1) {
                                     e1.printStackTrace();
                                 }
                             } else if (throwable instanceof IOException) { //Error from network
-                                showError("Can not connect to qiscus server!","Network Error");
+                                showError("Can not connect to qiscus server!", "Network Error");
                             } else { //Unknown error
-                                showError("Unexpected error!","Unknown Error");
+                                showError("Unexpected error!", "Unknown Error");
                             }
                         }
                     });
@@ -285,7 +272,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         finish();
     }
 
-    private void showError(String warning,String warningType) {
+    private void showError(String warning, String warningType) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);

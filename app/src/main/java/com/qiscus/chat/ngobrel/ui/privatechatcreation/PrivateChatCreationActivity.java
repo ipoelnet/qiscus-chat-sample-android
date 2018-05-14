@@ -70,7 +70,7 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
         ArrayList<Person> alumnusListTemp = alumnusRepository.getCachedData();
         alumnusList = new ArrayList<>(alumnusListTemp);
         //alumnusList = alumnusRepository.getCachedData();
-        
+
         alumnusList.add(0, groupChatHolder);
         alumnusList.add(0, strangerChatHolder);
 

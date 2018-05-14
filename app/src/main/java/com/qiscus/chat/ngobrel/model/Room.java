@@ -3,18 +3,13 @@ package com.qiscus.chat.ngobrel.model;
 /**
  * Created by omayib on 30/10/17.
  */
-
 public class Room {
     private final int id;
     private final String name;
-    private String latestConversation="";
-    private String onlineImage="";
-    private int unreadCounter=0;
-    private String lastMessageTime="";
-
-
-
-
+    private String latestConversation = "";
+    private String onlineImage = "";
+    private int unreadCounter = 0;
+    private String lastMessageTime = "";
 
     public Room(int id, String name) {
         this.id = id;
@@ -34,7 +29,10 @@ public class Room {
         this.onlineImage = image;
     }
 
-    public String getOnlineImage() {return onlineImage;}
+    public String getOnlineImage() {
+        return onlineImage;
+    }
+
     public int getId() {
         return id;
     }
@@ -43,13 +41,22 @@ public class Room {
         return name;
     }
 
-    public int getUnreadCounter() { return unreadCounter; }
+    public int getUnreadCounter() {
+        return unreadCounter;
+    }
 
-    public void setUnreadCounter(int unreadCounter) { this.unreadCounter = unreadCounter;}
+    public void setUnreadCounter(int unreadCounter) {
+        this.unreadCounter = unreadCounter;
+    }
 
-    public String getLastMessageTime() { return lastMessageTime;}
+    public String getLastMessageTime() {
+        return lastMessageTime;
+    }
 
-    public void setLastMessageTime(String lastMessageTime) { this.lastMessageTime = lastMessageTime;  }
+    public void setLastMessageTime(String lastMessageTime) {
+        this.lastMessageTime = lastMessageTime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

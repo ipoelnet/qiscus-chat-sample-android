@@ -1,15 +1,13 @@
 package com.qiscus.chat.ngobrel.repository;
 
-import java.util.List;
-
 import com.qiscus.chat.ngobrel.model.Person;
+
+import java.util.List;
 
 /**
  * Created by omayib on 22/09/17.
  */
-
 public class CacheRepository implements Repository, CachedData {
-
 
     @Override
     public void loadAll(RepositoryCallback<List<Person>> callback) {

@@ -1,17 +1,17 @@
 package com.qiscus.chat.ngobrel.repository;
 
+import com.qiscus.chat.ngobrel.db.PersonPersistance;
+import com.qiscus.chat.ngobrel.model.Person;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qiscus.chat.ngobrel.model.Person;
-import com.qiscus.chat.ngobrel.db.PersonPersistance;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 /**
  * Created by omayib on 22/09/17.
  */
-
 public class LocalRepository implements Repository {
     private static final String TAG = "LocalRepository";
 
@@ -27,7 +27,7 @@ public class LocalRepository implements Repository {
         ArrayList<Person> alumnus = new ArrayList<>();
         for (int i = 0; i < personPersistances.size(); i++) {
             PersonPersistance item = personPersistances.get(i);
-            alumnus.add(new Person(item.getId(),item.getName(),item.getEmail(),item.getJob()));
+            alumnus.add(new Person(item.getId(), item.getName(), item.getEmail(), item.getJob()));
         }
         callback.onSucceed(alumnus);
     }

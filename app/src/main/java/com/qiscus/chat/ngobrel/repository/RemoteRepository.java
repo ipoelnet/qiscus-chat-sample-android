@@ -5,12 +5,11 @@ import android.util.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.qiscus.chat.ngobrel.model.Person;
 import com.qiscus.sdk.Qiscus;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.qiscus.chat.ngobrel.model.Person;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,12 +18,13 @@ import retrofit2.Response;
 /**
  * Created by omayib on 22/09/17.
  */
-
-public class RemoteRepository  implements Repository {
+public class RemoteRepository implements Repository {
     private static final String TAG = "RemoteRepository";
+
     public RemoteRepository() {
 
     }
+
     ArrayList<Person> alumnus = new ArrayList<>();
 
     @Override
@@ -38,16 +38,14 @@ public class RemoteRepository  implements Repository {
                 .enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            if (response.isSuccessful()) {
-                                JsonObject body = response.body();
+                        if (response.isSuccessful()) {
+                            JsonObject body = response.body();
 
-                                alumnus = parseAlumnus(body);
+                            alumnus = parseAlumnus(body);
 
-                                Log.d("BODY","YES WE ARE PARSING ALUMNUS");
-                                callback.onSucceed(alumnus);
-                            } else {
-
-                            }
+                            Log.d("BODY", "YES WE ARE PARSING ALUMNUS");
+                            callback.onSucceed(alumnus);
+                        }
                     }
 
                     @Override
@@ -55,18 +53,6 @@ public class RemoteRepository  implements Repository {
 
                     }
                 });
-
-        /*
-        alumnus.add(new Person(UUID.randomUUID().toString(),"Haris","Haris@email.com","Android Programmer"));
-        alumnus.add(new Person(UUID.randomUUID().toString(),"Anang","Anang@email.com","Web Programmer"));
-        alumnus.add(new Person(UUID.randomUUID().toString(),"Satya","Satya@email.com","Backend Programmer"));
-        alumnus.add(new Person(UUID.randomUUID().toString(),"Henri","Henri@email.com","Backend Programmer"));
-        alumnus.add(new Person(UUID.randomUUID().toString(),"Desi","Desi@email.com","Pengacara"));
-        alumnus.add(new Person(UUID.randomUUID().toString(),"Sutris","Sutris@email.com","Desktop Programmer"));
-        alumnus.add(new Person(UUID.randomUUID().toString(),"Dina","Dina@email.com","Android Programmer"));
-        alumnus.add(new Person(UUID.randomUUID().toString(),"Winda","Winda@email.com","Android Programmer"));
-        */
-
     }
 
     private ArrayList<Person> parseAlumnus(JsonObject body) {
@@ -77,7 +63,7 @@ public class RemoteRepository  implements Repository {
         String currentUsername = Qiscus.getQiscusAccount().getUsername();
         JsonArray userArray = body.get("results").getAsJsonObject().get("users").getAsJsonArray();
 
-        for(JsonElement element: userArray){
+        for (JsonElement element : userArray) {
             JsonObject personElement = element.getAsJsonObject();
             String username = personElement.get("username").getAsString();
             if (!currentUsername.equals(username)) {

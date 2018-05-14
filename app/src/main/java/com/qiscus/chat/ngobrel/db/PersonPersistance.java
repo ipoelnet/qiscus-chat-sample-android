@@ -5,8 +5,7 @@ import io.realm.RealmObject;
 /**
  * Created by omayib on 18/09/17.
  */
-
-public class PersonPersistance extends RealmObject{
+public class PersonPersistance extends RealmObject {
 
     private String id;
     private String name;

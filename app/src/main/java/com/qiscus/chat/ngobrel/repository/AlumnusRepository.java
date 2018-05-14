@@ -4,10 +4,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.qiscus.chat.ngobrel.model.Person;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.qiscus.chat.ngobrel.model.Person;
 
 /**
  * Created by omayib on 22/09/17.
@@ -35,7 +35,7 @@ public class AlumnusRepository {
         this.listener = listener;
     }
 
-    public void loadAll(){
+    public void loadAll() {
         Log.d(TAG, "loadAll: ");
         CachedData cachedData = (CachedData) cacheRepo;
         /*if (!cachedData.alumnus.isEmpty()){
@@ -63,7 +63,8 @@ public class AlumnusRepository {
             }
         });
     }
-    public void reloadAll(){
+
+    public void reloadAll() {
         Log.d(TAG, "reloadAll: ");
         remoteRepo.loadAll(new RepositoryCallback<List<Person>>() {
             @Override
