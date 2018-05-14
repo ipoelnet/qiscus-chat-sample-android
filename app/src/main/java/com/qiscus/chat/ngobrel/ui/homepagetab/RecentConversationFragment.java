@@ -18,6 +18,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.qiscus.chat.ngobrel.R;
+import com.qiscus.chat.ngobrel.SampleApp;
+import com.qiscus.chat.ngobrel.model.Room;
+import com.qiscus.chat.ngobrel.ui.login.LoginActivity;
+import com.qiscus.chat.ngobrel.ui.privatechatcreation.PrivateChatCreationActivity;
+import com.qiscus.chat.ngobrel.util.EndlessRecyclerViewScrollListener;
+import com.qiscus.chat.ngobrel.util.RealTimeChatroomHandler;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
 import com.qiscus.sdk.data.model.QiscusComment;
@@ -28,13 +35,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.qiscus.chat.ngobrel.R;
-import com.qiscus.chat.ngobrel.SampleApp;
-import com.qiscus.chat.ngobrel.model.Room;
-import com.qiscus.chat.ngobrel.ui.login.LoginActivity;
-import com.qiscus.chat.ngobrel.ui.privatechatcreation.PrivateChatCreationActivity;
-import com.qiscus.chat.ngobrel.util.EndlessRecyclerViewScrollListener;
-import com.qiscus.chat.ngobrel.util.RealTimeChatroomHandler;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -61,13 +61,13 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
         super.onActivityCreated(savedInstanceState);
 
         View v = getView();
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerRecentConversation);
+        recyclerView = v.findViewById(R.id.recyclerRecentConversation);
         linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = v.findViewById(R.id.swipeRefreshLayout);
 
-        fabCreateNewConversation = (FloatingActionButton) v.findViewById(R.id.buttonCreateNewConversation);
+        fabCreateNewConversation = v.findViewById(R.id.buttonCreateNewConversation);
         fabCreateNewConversation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,8 +75,8 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
                 startActivity(intent);
             }
         });
-        emptyRoomView = (LinearLayout) v.findViewById(R.id.empty_room_view);
-        adapter = new  RecentConversationFragmentRecyclerAdapter(rooms);
+        emptyRoomView = v.findViewById(R.id.empty_room_view);
+        adapter = new RecentConversationFragmentRecyclerAdapter(rooms);
         recyclerView.setAdapter(adapter);
 
 
@@ -125,7 +125,7 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
                     @Override
                     public void onNext(List<QiscusChatRoom> qiscusChatRooms) {
-                        if (page==1) {
+                        if (page == 1) {
                             rooms.clear();
                         }
                         Log.d(TAG, "onNext: size" + qiscusChatRooms.size());
@@ -144,8 +144,7 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
                             String finalDateFormat = "";
                             if (DateUtils.isToday(messageDate.getTime())) {
                                 finalDateFormat = dateFormatToday.format(currentChatRoom.getLastComment().getTime());
-                            }
-                            else {
+                            } else {
                                 finalDateFormat = dateFormat.format(currentChatRoom.getLastComment().getTime());
                             }
                             room.setLastMessageTime(finalDateFormat);
@@ -176,16 +175,18 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
 
     @Override
-    public void onStart(){
+    public void onStart() {
         SampleApp.getInstance().getChatroomHandler().setListener(this);
         super.onStart();
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
         SampleApp.getInstance().getChatroomHandler().removeListener();
     }
+
     public void reloadRecentConversation() {
 
         if (swipeRefreshLayout != null) {
@@ -197,16 +198,16 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
     @Override
     public void onReceiveComment(QiscusComment comment) {
-        int roomId= (int) comment.getRoomId();
+        int roomId = (int) comment.getRoomId();
         boolean isNewRoom = true;
-        int index= 0;
-        for(int i=0; i<rooms.size(); i++) {
+        int index = 0;
+        for (int i = 0; i < rooms.size(); i++) {
             Room room = rooms.get(i);
-            if ( room.getId() == roomId) {
+            if (room.getId() == roomId) {
                 int unread = room.getUnreadCounter();
-                Room newRoom = new Room(room.getId(),room.getName());
+                Room newRoom = new Room(room.getId(), room.getName());
 
-                room.setUnreadCounter(unread+1);
+                room.setUnreadCounter(unread + 1);
                 room.setLatestConversation(comment.getMessage());
                 isNewRoom = false;
                 String finalDateFormat = "";
@@ -223,7 +224,7 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
                 rooms.remove(i);
                 adapter.notifyDataSetChanged();
-                rooms.add(0,room);
+                rooms.add(0, room);
                 adapter.notifyDataSetChanged();
             }
         }
@@ -238,13 +239,12 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
             String finalDateFormat = "";
             if (DateUtils.isToday(messageDate.getTime())) {
                 finalDateFormat = dateFormatToday.format(messageDate);
-            }
-            else {
+            } else {
                 finalDateFormat = dateFormat.format(messageDate);
             }
             room.setLastMessageTime(finalDateFormat);
             room.setUnreadCounter(1);
-            rooms.add(0,room);
+            rooms.add(0, room);
             adapter.notifyDataSetChanged();
         }
 
