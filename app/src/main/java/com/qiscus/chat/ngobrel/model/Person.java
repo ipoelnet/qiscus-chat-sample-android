@@ -6,14 +6,15 @@ import java.io.Serializable;
  * Created by omayib on 18/09/17.
  */
 
-public class Person implements Serializable{
-    private  String id;
-    private  String name;
-    private  String email;
-    private  String job;
-    private  String avatarUrl;
+public class Person implements Serializable {
+    private String id;
+    private String name;
+    private String email;
+    private String job;
+    private String avatarUrl;
     private boolean isSelected = false;
-    public Person()  {
+
+    public Person() {
 
     }
 

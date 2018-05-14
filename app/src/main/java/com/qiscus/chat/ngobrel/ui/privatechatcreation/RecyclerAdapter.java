@@ -5,10 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import com.qiscus.chat.ngobrel.R;
 import com.qiscus.chat.ngobrel.model.Person;
+
+import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final ArrayList<Person> persons;
@@ -35,6 +35,4 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     public int getItemCount() {
         return this.persons.size();
     }
-
-
 }

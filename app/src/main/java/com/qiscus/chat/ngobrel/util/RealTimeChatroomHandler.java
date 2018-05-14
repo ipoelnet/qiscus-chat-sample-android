@@ -37,7 +37,5 @@ public class RealTimeChatroomHandler {
 
     public interface Listener {
         void onReceiveComment(QiscusComment comment);
-
-
     }
 }

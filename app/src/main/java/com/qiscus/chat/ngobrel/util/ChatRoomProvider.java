@@ -19,8 +19,7 @@ public class ChatRoomProvider {
             onSuccess.onCall(savedChatRoom);
         } else {
             //fetching API when we dont have any qiscus chat room in qiscus database
-            QiscusRxExecutor.execute(QiscusApi
-                            .getInstance().getChatRoom(id),
+            QiscusRxExecutor.execute(QiscusApi.getInstance().getChatRoom(id),
                     new QiscusRxExecutor.Listener<QiscusChatRoom>() {
                         @Override
                         public void onSuccess(QiscusChatRoom qiscusChatRoom) {

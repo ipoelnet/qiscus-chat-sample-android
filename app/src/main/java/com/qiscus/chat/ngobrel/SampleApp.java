@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.qiscus.chat.ngobrel.ui.homepagetab.HomePageTabActivity;
 import com.qiscus.chat.ngobrel.util.ChatRoomNavigator;
+import com.qiscus.chat.ngobrel.util.Configuration;
+import com.qiscus.chat.ngobrel.util.RealTimeChatroomHandler;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.NotificationClickListener;
 import com.qiscus.sdk.data.model.QiscusComment;
@@ -13,15 +15,11 @@ import com.qiscus.sdk.event.QiscusCommentReceivedEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import com.qiscus.chat.ngobrel.util.Configuration;
-import com.qiscus.chat.ngobrel.util.RealTimeChatroomHandler;
-
 import io.realm.Realm;
 
 /**
  * Created by omayib on 18/09/17.
  */
-
 public class SampleApp extends Application {
     private RealTimeChatroomHandler chatroomHandler;
     private static SampleApp INSTANCE;
@@ -48,6 +46,7 @@ public class SampleApp extends Application {
                 .setReadIconColor(R.color.colorAccent)
                 .setEmptyRoomImageResource((R.drawable.ic_room_empty))
                 .setNotificationBigIcon(R.drawable.ic_logo_qiscus)
+                .setNotificationSmallIcon(R.drawable.ic_logo_qiscus)
                 .setNotificationClickListener(new NotificationClickListener() {
                     @Override
                     public void onClick(Context context, QiscusComment qiscusComment) {

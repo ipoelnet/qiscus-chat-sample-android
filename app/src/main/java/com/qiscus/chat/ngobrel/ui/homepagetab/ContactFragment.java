@@ -41,7 +41,7 @@ import com.qiscus.chat.ngobrel.ui.privatechatcreation.RecyclerAdapter;
 import com.qiscus.chat.ngobrel.ui.privatechatcreation.ViewHolder;
 import retrofit2.HttpException;
 
-public class ContactFragment extends Fragment implements RepositoryTransactionListener, ViewHolder.OnContactClickedListener,ChatWithStrangerDialogFragment.onStrangerNameInputtedListener{
+public class ContactFragment extends Fragment implements RepositoryTransactionListener, ViewHolder.OnContactClickedListener,ChatWithStrangerDialogFragment.OnStrangerNameInputtedListener {
     private static final String TAG = "PrivateChatCreationActivity";
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -118,7 +118,7 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
 
     @Override
     public void onContactClicked(final Person user) {
-        ContactDialogProfileFragment dialogFragment = new ContactDialogProfileFragment(user);
+        ContactDialogProfileFragment dialogFragment = ContactDialogProfileFragment.newInstance(user);
         dialogFragment.show(getActivity().getFragmentManager(),"ea");
     }
 

@@ -18,9 +18,9 @@ import com.qiscus.sdk.ui.view.QiscusCircularImageView;
 /**
  * Created by omayib on 18/09/17.
  */
-
 public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private static final String TAG = "ViewHolder";
+
     private TextView itemName;
     private TextView itemJob;
     private QiscusCircularImageView picture;
@@ -41,10 +41,10 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     }
 
     public void bindAlumni(Person person) {
-        this.selectedContact = person;
-        this.itemName.setText(person.getName());
-        this.itemJob.setText(person.getJob());
-        Context context = this.picture.getContext();
+        selectedContact = person;
+        itemName.setText(person.getName());
+        itemJob.setText(person.getJob());
+        Context context = picture.getContext();
         if (person.getEmail().equals(PrivateChatCreationActivity.GROUP_CHAT_ID)) {
             Nirmana.getInstance().get().load(R.drawable.ic_create_group).centerCrop().into(picture);
             picture.setColorFilter(ContextCompat.getColor(context, R.color.orangeIcon), PorterDuff.Mode.MULTIPLY);
@@ -65,7 +65,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     @Override
     public void onClick(final View v) {
-        this.listener.onContactClicked(this.selectedContact);
+        listener.onContactClicked(this.selectedContact);
     }
 
     public interface OnContactClickedListener {
