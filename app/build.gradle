@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 27
@@ -33,3 +32,5 @@ dependencies {
 
     implementation 'com.qiscus.sdk:chat:2.24.2-e2e-encryption-snapshot1'
 }
+
+apply plugin: 'com.google.gms.google-services'
