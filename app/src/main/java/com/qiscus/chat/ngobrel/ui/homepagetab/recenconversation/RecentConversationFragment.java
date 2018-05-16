@@ -95,16 +95,19 @@ public class RecentConversationFragment extends Fragment implements RealTimeChat
 
                         for (QiscusChatRoom chatRoom : qiscusChatRooms) {
                             Room room = new Room(chatRoom.getId(), chatRoom.getName());
-                            room.setLatestMessage(chatRoom.getLastComment().getMessage());
                             room.setAvatar(chatRoom.getAvatarUrl());
-                            Date messageDate = chatRoom.getLastComment().getTime();
-                            String finalDateFormat;
-                            if (DateUtils.isToday(messageDate.getTime())) {
-                                finalDateFormat = dateFormatToday.format(chatRoom.getLastComment().getTime());
-                            } else {
-                                finalDateFormat = dateFormat.format(chatRoom.getLastComment().getTime());
+
+                            if (chatRoom.getLastComment() != null) {
+                                room.setLatestMessage(chatRoom.getLastComment().getMessage());
+                                Date messageDate = chatRoom.getLastComment().getTime();
+                                String finalDateFormat;
+                                if (DateUtils.isToday(messageDate.getTime())) {
+                                    finalDateFormat = dateFormatToday.format(chatRoom.getLastComment().getTime());
+                                } else {
+                                    finalDateFormat = dateFormat.format(chatRoom.getLastComment().getTime());
+                                }
+                                room.setLastMessageTime(finalDateFormat);
                             }
-                            room.setLastMessageTime(finalDateFormat);
                             room.setUnreadCounter(chatRoom.getUnreadCount());
                             if (!rooms.contains(room)) {
                                 rooms.add(room);
