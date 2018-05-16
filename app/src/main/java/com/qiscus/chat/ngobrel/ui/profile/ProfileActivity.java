@@ -1,4 +1,4 @@
-package com.qiscus.chat.ngobrel.ui.homepagetab;
+package com.qiscus.chat.ngobrel.ui.profile;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -8,62 +8,57 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.qiscus.chat.ngobrel.R;
+import com.qiscus.chat.ngobrel.ui.login.LoginActivity;
+import com.qiscus.chat.ngobrel.util.FileUtil;
 import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.local.QiscusCacheManager;
 import com.qiscus.sdk.data.model.QiscusAccount;
-import com.qiscus.sdk.data.remote.QiscusApi;
 import com.qiscus.sdk.util.QiscusImageUtil;
 
 import java.io.File;
 import java.io.IOException;
 
-import com.qiscus.chat.ngobrel.R;
-import com.qiscus.chat.ngobrel.ui.login.LoginActivity;
-import com.qiscus.chat.ngobrel.util.FileUtil;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView displayName,userId,logoutText;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1000;
+    private static final int GET_GALLERY_IMAGE_REQUEST_CODE = 1001;
+
+    private TextView displayName, userId, logoutText;
     private QiscusAccount qiscusAccount;
     private ImageView logoutButton;
-    private final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1000;
-    private final int GET_GALLERY_IMAGE_REQUEST_CODE = 1001;
-    com.qiscus.sdk.ui.view.QiscusCircularImageView uploadIcon;
-    private com.qiscus.sdk.ui.view.QiscusCircularImageView picture;
+    private ImageView uploadIcon;
+    private ImageView picture;
     private View mProgressView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        picture = (com.qiscus.sdk.ui.view.QiscusCircularImageView) findViewById(R.id.single_avatar);
-        displayName = (TextView) findViewById(R.id.profile_display_name);
-        userId = (TextView) findViewById(R.id.profile_user_id);
+        picture = findViewById(R.id.single_avatar);
+        displayName = findViewById(R.id.profile_display_name);
+        userId = findViewById(R.id.profile_user_id);
         mProgressView = findViewById(R.id.upload_progress);
         qiscusAccount = Qiscus.getQiscusAccount();
         displayName.setText(qiscusAccount.getUsername());
         this.setTitle("Profile");
         userId.setText(qiscusAccount.getEmail());
-        logoutText =(TextView) findViewById(R.id.logout_text);
-        logoutButton = (ImageView) findViewById(R.id.logout_button);
+        logoutText = findViewById(R.id.logout_text);
+        logoutButton = findViewById(R.id.logout_button);
         logoutButton.setOnClickListener(this);
         logoutText.setOnClickListener(this);
-        uploadIcon = (com.qiscus.sdk.ui.view.QiscusCircularImageView) findViewById(R.id.upload_icon);
+        uploadIcon = findViewById(R.id.upload_icon);
         uploadIcon.setOnClickListener(this);
         String avatarUrl = qiscusAccount.getAvatar();
         Nirmana.getInstance().get().load(avatarUrl).centerCrop().into(picture);
@@ -122,7 +117,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             try {
                 photoFile = QiscusImageUtil.createImageFile();
             } catch (IOException ex) {
-                showError("Failed to write temporary picture!","Unexpected Error");
+                showError("Failed to write temporary picture!", "Unexpected Error");
             }
 
             if (photoFile != null) {
@@ -146,7 +141,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void showError(String warning,String warningType) {
+    private void showError(String warning, String warningType) {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
@@ -204,7 +199,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onError(Throwable throwable) {
                         showProgress(false);
-                        showError("An error occured please try again","Network Error");
+                        showError("An error occured please try again", "Network Error");
                     }
                 });
 
@@ -213,7 +208,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onFailiedGetUri(Throwable throwable) {
                 showProgress(false);
-                showError("An error occured please try again","Network Error");
+                showError("An error occured please try again", "Network Error");
             }
         });
     }
@@ -270,6 +265,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
+
     public interface Callback {
         void onSuccessGetUri(String uri);
 

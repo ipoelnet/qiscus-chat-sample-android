@@ -9,13 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.qiscus.chat.ngobrel.R;
+import com.qiscus.chat.ngobrel.ui.profile.ProfileActivity;
 import com.qiscus.sdk.Qiscus;
 
-import com.qiscus.chat.ngobrel.R;
-import com.qiscus.chat.ngobrel.ui.login.LoginActivity;
-
 public class HomePageTabActivity extends AppCompatActivity {
-    ViewPager viewPager;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +29,7 @@ public class HomePageTabActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = findViewById(R.id.pager);
-        final PagerAdapter adapter = new PagerAdapter
-                (getSupportFragmentManager(), tabLayout.getTabCount());
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -66,7 +64,6 @@ public class HomePageTabActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //gotoContact
         switch (item.getItemId()) {
             case R.id.profileIcon:
                 startActivity(new Intent(HomePageTabActivity.this, ProfileActivity.class));
@@ -76,29 +73,17 @@ public class HomePageTabActivity extends AppCompatActivity {
         }
     }
 
-    private void logout() {
-        Qiscus.clearUser();
-        startActivity(new Intent(HomePageTabActivity.this, LoginActivity.class));
-    }
-
-
     @Override
     public void onBackPressed() {
-
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             if (viewPager.getCurrentItem() != 0) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1,false);
-            }else{
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, false);
+            } else {
                 finish();
             }
         } else {
-           //this.onBackPressed();
             getSupportFragmentManager().popBackStack();
         }
-
-
-
-
     }
 }

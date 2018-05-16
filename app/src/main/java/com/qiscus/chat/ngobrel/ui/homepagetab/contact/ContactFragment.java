@@ -1,4 +1,4 @@
-package com.qiscus.chat.ngobrel.ui.homepagetab;
+package com.qiscus.chat.ngobrel.ui.homepagetab.contact;
 
 /**
  * Created by asyrof on 17/11/17.

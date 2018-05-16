@@ -16,11 +16,11 @@ import com.qiscus.sdk.util.QiscusAndroidUtil;
 
 public class ChatRoomNavigator {
 
-    public static ChatRoomActivityBuilder openChatRoom (Context context, QiscusChatRoom qiscusChatRoom) {
+    public static ChatRoomActivityBuilder openChatRoom(Context context, QiscusChatRoom qiscusChatRoom) {
         return new ChatRoomActivityBuilder(context, qiscusChatRoom);
     }
 
-    public static ChatRoomActivityBuilder openChatQiscusCommentRoom (Context context, QiscusComment qiscusComment) {
+    public static ChatRoomActivityBuilder openChatQiscusCommentRoom(Context context, QiscusComment qiscusComment) {
         return new ChatRoomActivityBuilder(context, qiscusComment);
     }
 
@@ -67,22 +67,22 @@ public class ChatRoomNavigator {
 
     private static void openQiscusCommentRoom(final ChatRoomActivityBuilder builder) {
 
-        ChatRoomProvider.getChatRoom((int) builder.qiscusComment.getRoomId(),
+        ChatRoomProvider.getChatRoom(builder.qiscusComment.getRoomId(),
                 new ChatRoomProvider.Callback<QiscusChatRoom>() {
-            @Override
-            public void onCall(QiscusChatRoom qiscusChatRoom) {
-                openChatRoomActivity(qiscusChatRoom, builder);
-            }
-        }, new ChatRoomProvider.Callback<Throwable>() {
-            @Override
-            public void onCall(Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        });
+                    @Override
+                    public void onCall(QiscusChatRoom qiscusChatRoom) {
+                        openChatRoomActivity(qiscusChatRoom, builder);
+                    }
+                }, new ChatRoomProvider.Callback<Throwable>() {
+                    @Override
+                    public void onCall(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
     }
 
     private static void openChatRoom(final ChatRoomActivityBuilder builder) {
-        ChatRoomProvider.getChatRoom((int)builder.qiscusChatRoom.getId(),
+        ChatRoomProvider.getChatRoom(builder.qiscusChatRoom.getId(),
                 new ChatRoomProvider.Callback<QiscusChatRoom>() {
                     @Override
                     public void onCall(QiscusChatRoom qiscusChatRoom) {

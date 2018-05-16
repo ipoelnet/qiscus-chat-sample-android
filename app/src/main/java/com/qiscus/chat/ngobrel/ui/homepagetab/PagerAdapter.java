@@ -1,15 +1,17 @@
 package com.qiscus.chat.ngobrel.ui.homepagetab;
 
-/**
- * Created by asyrof on 17/11/17.
- */
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.qiscus.chat.ngobrel.ui.homepagetab.contact.ContactFragment;
+import com.qiscus.chat.ngobrel.ui.homepagetab.recenconversation.RecentConversationFragment;
+
+/**
+ * Created by asyrof on 17/11/17.
+ */
 public class PagerAdapter extends FragmentStatePagerAdapter {
-    int mNumOfTabs;
+    private int mNumOfTabs;
 
     public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);

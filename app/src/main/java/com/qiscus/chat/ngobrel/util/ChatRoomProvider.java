@@ -11,8 +11,7 @@ import com.qiscus.sdk.util.QiscusRxExecutor;
 
 public class ChatRoomProvider {
 
-    public static void getChatRoom(int id, final Callback<QiscusChatRoom> onSuccess,
-                                   final Callback<Throwable> onFailure) {
+    public static void getChatRoom(long id, final Callback<QiscusChatRoom> onSuccess, final Callback<Throwable> onFailure) {
         QiscusChatRoom savedChatRoom = Qiscus.getDataStore().getChatRoom(id);
 
         if (savedChatRoom != null) {

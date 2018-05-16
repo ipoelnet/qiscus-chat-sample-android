@@ -1,39 +1,41 @@
 package com.qiscus.chat.ngobrel.model;
 
+import com.qiscus.sdk.util.QiscusNumberUtil;
+
 /**
  * Created by omayib on 30/10/17.
  */
 public class Room {
-    private final int id;
+    private final long id;
     private final String name;
-    private String latestConversation = "";
-    private String onlineImage = "";
+    private String avatar = "";
     private int unreadCounter = 0;
+    private String latestMessage = "";
     private String lastMessageTime = "";
 
-    public Room(int id, String name) {
+    public Room(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public String getLatestConversation() {
-        return latestConversation;
+    public String getLatestMessage() {
+        return latestMessage;
     }
 
-    public void setLatestConversation(String latestConversation) {
-        this.latestConversation = latestConversation;
+    public void setLatestMessage(String latestMessage) {
+        this.latestMessage = latestMessage;
     }
 
 
-    public void setOnlineImage(String image) {
-        this.onlineImage = image;
+    public void setAvatar(String image) {
+        this.avatar = image;
     }
 
-    public String getOnlineImage() {
-        return onlineImage;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -69,6 +71,6 @@ public class Room {
 
     @Override
     public int hashCode() {
-        return id;
+        return QiscusNumberUtil.convertToInt(id);
     }
 }

@@ -9,7 +9,7 @@ import com.qiscus.chat.ngobrel.ui.homepagetab.HomePageTabActivity;
 import com.qiscus.chat.ngobrel.ui.login.LoginActivity;
 import com.qiscus.sdk.Qiscus;
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +19,9 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 if (!Qiscus.hasSetupUser()) {
-                    startActivity(new Intent(SplashScreen.this, LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 } else {
-                    startActivity(new Intent(SplashScreen.this, HomePageTabActivity.class));
+                    startActivity(new Intent(SplashActivity.this, HomePageTabActivity.class));
                 }
             }
         }, splashInterval);

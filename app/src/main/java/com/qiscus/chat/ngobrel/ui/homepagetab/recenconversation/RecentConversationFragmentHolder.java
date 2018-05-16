@@ -1,4 +1,4 @@
-package com.qiscus.chat.ngobrel.ui.homepagetab;
+package com.qiscus.chat.ngobrel.ui.homepagetab.recenconversation;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -8,11 +8,11 @@ import android.widget.TextView;
 
 import com.qiscus.chat.ngobrel.R;
 import com.qiscus.chat.ngobrel.model.Room;
+import com.qiscus.chat.ngobrel.ui.homepagetab.HomePageTabActivity;
 import com.qiscus.chat.ngobrel.util.ChatRoomNavigator;
 import com.qiscus.chat.ngobrel.util.ChatRoomProvider;
 import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.ui.view.QiscusCircularImageView;
 
 /**
  * Created by omayib on 30/10/17.
@@ -41,7 +41,7 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
     public void bindRecentConversation(Room room) {
         this.selectedRoom = room;
         this.itemName.setText(room.getName());
-        String latestConversation = room.getLatestConversation();
+        String latestConversation = room.getLatestMessage();
         if (latestConversation.contains("[file]")) {
             latestConversation = "File Attachment";
         }
@@ -55,7 +55,7 @@ public class RecentConversationFragmentHolder extends RecyclerView.ViewHolder im
         } else {
             this.unreadFrame.setVisibility(View.GONE);
         }
-        String imagePath = room.getOnlineImage();
+        String imagePath = room.getAvatar();
         Nirmana.getInstance().get().load(imagePath).centerCrop().into(picture);
     }
 
