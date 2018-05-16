@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.splash.SplashScreen"
+            android:name=".ui.splash.SplashActivity"
             android:noHistory="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -37,7 +37,7 @@
         <activity
             android:name=".ui.homepagetab.HomePageTabActivity"
             android:theme="@style/TabTheme" />
-        <activity android:name=".ui.homepagetab.ProfileActivity" />
+        <activity android:name=".ui.profile.ProfileActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
