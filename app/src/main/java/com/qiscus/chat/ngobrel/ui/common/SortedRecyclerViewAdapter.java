@@ -3,6 +3,8 @@ package com.qiscus.chat.ngobrel.ui.common;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.List;
+
 /**
  * Created on : January 31, 2018
  * Author     : zetbaitsu
@@ -83,6 +85,65 @@ public abstract class SortedRecyclerViewAdapter<Item, VH extends RecyclerView.Vi
 
     public SortedList<Item> getData() {
         return data;
+    }
+
+    public boolean isEmpty() {
+        return data.size() < 1;
+    }
+
+    public int add(Item item) {
+        int i = data.add(item);
+        notifyItemInserted(i);
+        return i;
+    }
+
+    public void add(final List<Item> items) {
+        data.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void addOrUpdate(Item item) {
+        int i = findPosition(item);
+        if (i >= 0) {
+            data.updateItemAt(i, item);
+            notifyItemChanged(i);
+        } else {
+            add(item);
+        }
+    }
+
+    public void addOrUpdate(final List<Item> items) {
+        for (Item item : items) {
+            int i = findPosition(item);
+            if (i >= 0) {
+                data.updateItemAt(i, item);
+            } else {
+                data.add(item);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void refreshWithData(List<Item> items) {
+        data.clear();
+        data.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void remove(int position) {
+        if (position >= 0 && position < data.size()) {
+            data.removeItemAt(position);
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void remove(Item item) {
+        int position = findPosition(item);
+        remove(position);
+    }
+
+    public void clear() {
+        data.clear();
     }
 
     public int findPosition(Item item) {
