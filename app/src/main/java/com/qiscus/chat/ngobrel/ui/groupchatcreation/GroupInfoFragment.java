@@ -29,29 +29,22 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.qiscus.chat.ngobrel.R;
+import com.qiscus.chat.ngobrel.model.Person;
+import com.qiscus.chat.ngobrel.ui.groupchatroom.GroupChatRoomActivity;
+import com.qiscus.chat.ngobrel.util.FileUtil;
 import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.local.QiscusCacheManager;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.data.remote.QiscusApi;
-import com.qiscus.sdk.ui.QiscusGroupChatActivity;
 import com.qiscus.sdk.util.QiscusImageUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.qiscus.chat.ngobrel.R;
-import com.qiscus.chat.ngobrel.model.Person;
-import com.qiscus.chat.ngobrel.util.FileUtil;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-
-
-public class GroupInfoFragment extends Fragment implements View.OnClickListener,ViewHolder.OnContactClickedListener {
+public class GroupInfoFragment extends Fragment implements View.OnClickListener, ViewHolder.OnContactClickedListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static String CONTACT_KEY = "CONTACT_KEY";
@@ -105,7 +98,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            }
+        }
         setHasOptionsMenu(true);
     }
 
@@ -134,7 +127,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
         mLinearLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         groupNameView = (EditText) view.findViewById(R.id.group_name_input);
-        mAdapter = new RecyclerAdapter(personList, this,true);
+        mAdapter = new RecyclerAdapter(personList, this, true);
         mRecyclerView.setAdapter(mAdapter);
         return view;//  inflater.inflate(R.layout.fragment_group_info, container, false);
     }
@@ -174,7 +167,6 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
 
 
-
         switch (view.getId()) {
             case R.id.upload_icon:
                 PopupMenu popup = new PopupMenu(getActivity(), uploadIcon);
@@ -203,7 +195,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
                 break;*/
 
             default:
-              break;
+                break;
 
         }
 
@@ -268,7 +260,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
                     public void onSuccess(QiscusChatRoom qiscusChatRoom) {
                         progressDialog.dismiss();
                         //startActivity(QiscusGroupChatActivity.generateIntent(getActivity(), qiscusChatRoom));
-                        Intent intent = new Intent(QiscusGroupChatActivity.generateIntent(getActivity(), qiscusChatRoom));
+                        Intent intent = new Intent(GroupChatRoomActivity.generateIntent(getActivity(), qiscusChatRoom));
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         getActivity().finish();
@@ -397,7 +389,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
     public void onContactSelected(String userEmail) {
         if (!contacts.contains(userEmail)) {
             contacts.add(userEmail);
-            this.emailListener.processPerson(userEmail,true);
+            this.emailListener.processPerson(userEmail, true);
         }
 
     }
@@ -405,9 +397,9 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
     @SuppressLint("LongLogTag")
     @Override
     public void onContactUnselected(String userEmail) {
-        if(contacts.contains(userEmail)) {
+        if (contacts.contains(userEmail)) {
             contacts.remove(userEmail);
-            this.emailListener.processPerson(userEmail,false);
+            this.emailListener.processPerson(userEmail, false);
         }
     }
 
@@ -421,11 +413,11 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
         void onFragmentInteraction(Uri uri);
     }
 
-    public interface MyEmailListener{
-        void processPerson(String email,boolean selected);
+    public interface MyEmailListener {
+        void processPerson(String email, boolean selected);
     }
 
-    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater){
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
     }
 }

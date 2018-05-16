@@ -38,6 +38,9 @@
             android:name=".ui.homepagetab.HomePageTabActivity"
             android:theme="@style/TabTheme" />
         <activity android:name=".ui.profile.ProfileActivity" />
+        <activity
+            android:name=".ui.groupchatroom.GroupChatRoomActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".service.FirebaseService">
             <intent-filter>

@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.TaskStackBuilder;
 
+import com.qiscus.chat.ngobrel.ui.groupchatroom.GroupChatRoomActivity;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
 import com.qiscus.sdk.data.model.QiscusComment;
 import com.qiscus.sdk.ui.QiscusChatActivity;
-import com.qiscus.sdk.ui.QiscusGroupChatActivity;
 import com.qiscus.sdk.util.QiscusAndroidUtil;
 
 /**
@@ -101,7 +101,7 @@ public class ChatRoomNavigator {
                                              ChatRoomActivityBuilder builder) {
         Intent chatIntent;
         if (qiscusChatRoom.isGroup()) {
-            chatIntent = QiscusGroupChatActivity.generateIntent(builder.context, qiscusChatRoom);
+            chatIntent = GroupChatRoomActivity.generateIntent(builder.context, qiscusChatRoom);
         } else {
             chatIntent = QiscusChatActivity.generateIntent(builder.context, qiscusChatRoom);
         }
