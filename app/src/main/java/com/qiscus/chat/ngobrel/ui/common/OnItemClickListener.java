@@ -6,5 +6,6 @@ package com.qiscus.chat.ngobrel.ui.common;
  * Name       : Zetra
  * GitHub     : https://github.com/zetbaitsu
  */
-public class OnItemClickListener {
+public interface OnItemClickListener {
+    void onItemClick(int position);
 }
