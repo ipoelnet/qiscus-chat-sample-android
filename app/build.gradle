@@ -40,8 +40,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    //implementation 'com.qiscus.sdk:chat:2.24.2-e2e-encryption-snapshot1'
-    implementation project(':chat')
+    implementation 'com.qiscus.sdk:chat:2.24.3-e2e-encryption-snapshot2'
+    //implementation project(':chat')
 }
 
 apply plugin: 'com.google.gms.google-services'
