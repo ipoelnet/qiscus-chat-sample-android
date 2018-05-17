@@ -25,6 +25,22 @@ import rx.schedulers.Schedulers;
 public class ChatRoomRepositoryImpl implements ChatRoomRepository {
 
     @Override
+    public void getChatRoom(long roomId, Action<QiscusChatRoom> onSuccess, Action<Throwable> onError) {
+        QiscusChatRoom savedChatRoom = Qiscus.getDataStore().getChatRoom(roomId);
+        if (savedChatRoom != null) {
+            onSuccess.call(savedChatRoom);
+            return;
+        }
+
+        QiscusApi.getInstance()
+                .getChatRoom(roomId)
+                .doOnNext(chatRoom -> Qiscus.getDataStore().addOrUpdate(chatRoom))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onSuccess::call, onError::call);
+    }
+
+    @Override
     public void getChatRooms(Action<List<QiscusChatRoom>> onSuccess, Action<Throwable> onError) {
         Observable.fromCallable(() -> Qiscus.getDataStore().getChatRooms(100))
                 .flatMap(Observable::from)

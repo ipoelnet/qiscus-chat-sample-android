@@ -14,8 +14,9 @@ import com.qiscus.chat.ngobrel.NgobrelApp;
 import com.qiscus.chat.ngobrel.R;
 import com.qiscus.chat.ngobrel.data.model.User;
 import com.qiscus.chat.ngobrel.data.repository.ChatRoomRepository;
+import com.qiscus.chat.ngobrel.ui.homepagetab.HomePageTabActivity;
+import com.qiscus.chat.ngobrel.util.ChatRoomNavigator;
 import com.qiscus.nirmana.Nirmana;
-import com.qiscus.sdk.ui.QiscusChatActivity;
 
 /**
  * Created by asyrof on 18/12/17.
@@ -57,7 +58,9 @@ public class ContactDialogProfileFragment extends DialogFragment {
         rootView.findViewById(R.id.startChat).setOnClickListener(v -> {
             chatRoomRepository.createChatRoom(user,
                     qiscusChatRoom -> {
-                        startActivity(QiscusChatActivity.generateIntent(getActivity(), qiscusChatRoom));
+                        ChatRoomNavigator.openChatRoom(getActivity(), qiscusChatRoom)
+                                .withParentClass(HomePageTabActivity.class)
+                                .start();
                         dismiss();
                     },
                     Throwable::printStackTrace);

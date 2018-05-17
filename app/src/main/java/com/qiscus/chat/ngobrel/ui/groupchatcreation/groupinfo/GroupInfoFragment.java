@@ -2,7 +2,6 @@ package com.qiscus.chat.ngobrel.ui.groupchatcreation.groupinfo;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -20,7 +19,8 @@ import android.widget.Toast;
 import com.qiscus.chat.ngobrel.NgobrelApp;
 import com.qiscus.chat.ngobrel.R;
 import com.qiscus.chat.ngobrel.data.model.User;
-import com.qiscus.chat.ngobrel.ui.groupchatroom.GroupChatRoomActivity;
+import com.qiscus.chat.ngobrel.ui.homepagetab.HomePageTabActivity;
+import com.qiscus.chat.ngobrel.util.ChatRoomNavigator;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
 
 import java.util.ArrayList;
@@ -121,7 +121,9 @@ public class GroupInfoFragment extends Fragment implements GroupInfoPresenter.Vi
 
     @Override
     public void showGroupChatRoomPage(QiscusChatRoom chatRoom) {
-        startActivity(GroupChatRoomActivity.generateIntent(getActivity(), chatRoom));
+        ChatRoomNavigator.openChatRoom(getActivity(), chatRoom)
+                .withParentClass(HomePageTabActivity.class)
+                .start();
     }
 
     @Override

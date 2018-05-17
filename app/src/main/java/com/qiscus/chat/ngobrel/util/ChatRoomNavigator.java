@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.TaskStackBuilder;
 
+import com.qiscus.chat.ngobrel.NgobrelApp;
 import com.qiscus.chat.ngobrel.ui.groupchatroom.GroupChatRoomActivity;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
 import com.qiscus.sdk.data.model.QiscusComment;
@@ -13,8 +14,7 @@ import com.qiscus.sdk.util.QiscusAndroidUtil;
 /**
  * Created by catur on 1/11/18.
  */
-
-public class ChatRoomNavigator {
+public final class ChatRoomNavigator {
 
     public static ChatRoomActivityBuilder openChatRoom(Context context, QiscusChatRoom qiscusChatRoom) {
         return new ChatRoomActivityBuilder(context, qiscusChatRoom);
@@ -46,12 +46,7 @@ public class ChatRoomNavigator {
         }
 
         public void start() {
-            QiscusAndroidUtil.runOnBackgroundThread(new Runnable() {
-                @Override
-                public void run() {
-                    ChatRoomNavigator.start(ChatRoomActivityBuilder.this);
-                }
-            });
+            QiscusAndroidUtil.runOnBackgroundThread(() -> ChatRoomNavigator.start(ChatRoomActivityBuilder.this));
         }
     }
 
@@ -66,39 +61,19 @@ public class ChatRoomNavigator {
     }
 
     private static void openQiscusCommentRoom(final ChatRoomActivityBuilder builder) {
-
-        ChatRoomProvider.getChatRoom(builder.qiscusComment.getRoomId(),
-                new ChatRoomProvider.Callback<QiscusChatRoom>() {
-                    @Override
-                    public void onCall(QiscusChatRoom qiscusChatRoom) {
-                        openChatRoomActivity(qiscusChatRoom, builder);
-                    }
-                }, new ChatRoomProvider.Callback<Throwable>() {
-                    @Override
-                    public void onCall(Throwable throwable) {
-                        throwable.printStackTrace();
-                    }
-                });
+        NgobrelApp.getInstance().getComponent().getChatRoomRepository()
+                .getChatRoom(builder.qiscusComment.getRoomId(),
+                        qiscusChatRoom -> openChatRoomActivity(qiscusChatRoom, builder), Throwable::printStackTrace);
     }
 
     private static void openChatRoom(final ChatRoomActivityBuilder builder) {
-        ChatRoomProvider.getChatRoom(builder.qiscusChatRoom.getId(),
-                new ChatRoomProvider.Callback<QiscusChatRoom>() {
-                    @Override
-                    public void onCall(QiscusChatRoom qiscusChatRoom) {
-                        openChatRoomActivity(qiscusChatRoom, builder);
-                    }
-                }, new ChatRoomProvider.Callback<Throwable>() {
-                    @Override
-                    public void onCall(Throwable call) {
-                        call.printStackTrace();
-                    }
-                });
+        NgobrelApp.getInstance().getComponent().getChatRoomRepository()
+                .getChatRoom(builder.qiscusChatRoom.getId(),
+                        qiscusChatRoom -> openChatRoomActivity(qiscusChatRoom, builder), Throwable::printStackTrace);
 
     }
 
-    private static void openChatRoomActivity(QiscusChatRoom qiscusChatRoom,
-                                             ChatRoomActivityBuilder builder) {
+    private static void openChatRoomActivity(QiscusChatRoom qiscusChatRoom, ChatRoomActivityBuilder builder) {
         Intent chatIntent;
         if (qiscusChatRoom.isGroup()) {
             chatIntent = GroupChatRoomActivity.generateIntent(builder.context, qiscusChatRoom);

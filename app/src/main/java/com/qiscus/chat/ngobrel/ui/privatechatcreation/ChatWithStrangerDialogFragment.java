@@ -14,7 +14,8 @@ import com.qiscus.chat.ngobrel.NgobrelApp;
 import com.qiscus.chat.ngobrel.R;
 import com.qiscus.chat.ngobrel.data.model.User;
 import com.qiscus.chat.ngobrel.data.repository.ChatRoomRepository;
-import com.qiscus.sdk.ui.QiscusChatActivity;
+import com.qiscus.chat.ngobrel.ui.homepagetab.HomePageTabActivity;
+import com.qiscus.chat.ngobrel.util.ChatRoomNavigator;
 
 /**
  * Created by omayib on 05/11/17.
@@ -51,7 +52,9 @@ public class ChatWithStrangerDialogFragment extends DialogFragment {
             if (!editText.getText().toString().isEmpty()) {
                 chatRoomRepository.createChatRoom(new User(editText.getText().toString(), "", ""),
                         qiscusChatRoom -> {
-                            startActivity(QiscusChatActivity.generateIntent(getActivity(), qiscusChatRoom));
+                            ChatRoomNavigator.openChatRoom(getActivity(), qiscusChatRoom)
+                                    .withParentClass(HomePageTabActivity.class)
+                                    .start();
                             dismiss();
                         },
                         Throwable::printStackTrace);

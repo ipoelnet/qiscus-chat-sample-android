@@ -13,6 +13,8 @@ import java.util.List;
  * GitHub     : https://github.com/zetbaitsu
  */
 public interface ChatRoomRepository {
+    void getChatRoom(long roomId, Action<QiscusChatRoom> onSuccess, Action<Throwable> onError);
+
     void getChatRooms(Action<List<QiscusChatRoom>> onSuccess, Action<Throwable> onError);
 
     void createChatRoom(User user, Action<QiscusChatRoom> onSuccess, Action<Throwable> onError);
