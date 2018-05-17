@@ -1,7 +1,6 @@
 package com.qiscus.chat.ngobrel.ui.privatechatcreation;
 
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,15 +38,9 @@ public class ContactViewHolder extends RecyclerView.ViewHolder implements View.O
         if (user.getId().equals(PrivateChatCreationActivity.GROUP_CHAT_ID)) {
             Nirmana.getInstance().get().load(R.drawable.ic_create_group).centerCrop().into(picture);
             picture.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.orangeIcon), PorterDuff.Mode.MULTIPLY);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                itemName.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
-            }
         } else if (user.getId().equals(PrivateChatCreationActivity.STRANGER_CHAT_ID)) {
             Nirmana.getInstance().get().load(R.drawable.ic_stranger).centerCrop().into(picture);
             picture.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.orangeIcon), PorterDuff.Mode.MULTIPLY);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                itemName.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
-            }
         } else {
             Nirmana.getInstance().get()
                     .load(user.getAvatarUrl())
@@ -55,6 +48,7 @@ public class ContactViewHolder extends RecyclerView.ViewHolder implements View.O
                     .error(R.drawable.ic_qiscus_avatar)
                     .dontAnimate()
                     .into(picture);
+            picture.setColorFilter(null);
         }
     }
 
