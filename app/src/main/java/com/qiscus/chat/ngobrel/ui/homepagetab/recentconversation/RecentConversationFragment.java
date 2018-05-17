@@ -78,6 +78,12 @@ public class RecentConversationFragment extends Fragment implements RecentConver
     }
 
     @Override
+    public void onChatRoomUpdated(QiscusChatRoom chatRoom) {
+        adapter.addOrUpdate(chatRoom);
+        emptyRoomView.setVisibility(adapter.getData().size() > 0 ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
     public void showChatRoomPage(QiscusChatRoom chatRoom) {
         startActivity(QiscusChatActivity.generateIntent(getActivity(), chatRoom));
     }
@@ -96,5 +102,11 @@ public class RecentConversationFragment extends Fragment implements RecentConver
     @Override
     public void onRefresh() {
         presenter.loadChatRooms();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 }

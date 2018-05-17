@@ -2,6 +2,10 @@ package com.qiscus.chat.ngobrel.ui.homepagetab.recentconversation;
 
 import com.qiscus.chat.ngobrel.data.repository.ChatRoomRepository;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.sdk.event.QiscusCommentReceivedEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -18,6 +22,8 @@ public class RecentConversationPresenter {
     public RecentConversationPresenter(View view, ChatRoomRepository chatRoomRepository) {
         this.view = view;
         this.chatRoomRepository = chatRoomRepository;
+
+        EventBus.getDefault().register(this);
     }
 
     public void loadChatRooms() {
@@ -33,8 +39,22 @@ public class RecentConversationPresenter {
         view.showChatRoomPage(chatRoom);
     }
 
+    @Subscribe
+    public void onReceivedComment(QiscusCommentReceivedEvent event) {
+        chatRoomRepository.getChatRoom(event.getQiscusComment().getRoomId(),
+                qiscusChatRoom -> {
+                    view.onChatRoomUpdated(qiscusChatRoom);
+                }, Throwable::printStackTrace);
+    }
+
+    public void detachView() {
+        EventBus.getDefault().unregister(this);
+    }
+
     public interface View {
         void showChatRooms(List<QiscusChatRoom> chatRooms);
+
+        void onChatRoomUpdated(QiscusChatRoom chatRoom);
 
         void showChatRoomPage(QiscusChatRoom chatRoom);
 
