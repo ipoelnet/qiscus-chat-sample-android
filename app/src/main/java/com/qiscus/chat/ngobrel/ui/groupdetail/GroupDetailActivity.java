@@ -1,5 +1,6 @@
 package com.qiscus.chat.ngobrel.ui.groupdetail;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.qiscus.chat.ngobrel.NgobrelApp;
 import com.qiscus.chat.ngobrel.R;
 import com.qiscus.chat.ngobrel.data.model.User;
+import com.qiscus.chat.ngobrel.ui.addmember.AddGroupMemberActivity;
 import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusAccount;
@@ -94,7 +96,7 @@ public class GroupDetailActivity extends AppCompatActivity implements GroupDetai
     }
 
     private void addNewMember() {
-        //startActivityForResult(AddGroupParticipantsActivity.generateIntent(this, qiscusChatRoom), RC_ADD_PARTICIPANTS);
+        startActivityForResult(AddGroupMemberActivity.generateIntent(this, qiscusChatRoom), RC_ADD_PARTICIPANTS);
     }
 
     private void removeMember(QiscusRoomMember member) {
@@ -137,6 +139,7 @@ public class GroupDetailActivity extends AppCompatActivity implements GroupDetai
         QiscusRoomMember member = new QiscusRoomMember();
         member.setEmail(user.getId());
         memberAdapter.remove(member);
+        qiscusChatRoom.getMember().remove(member);
     }
 
     @Override
@@ -152,5 +155,19 @@ public class GroupDetailActivity extends AppCompatActivity implements GroupDetai
     @Override
     public void showErrorMessage(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_ADD_PARTICIPANTS && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                qiscusChatRoom = data.getParcelableExtra(CHAT_ROOM_DATA);
+                bindRoomData();
+                Intent intent = new Intent();
+                intent.putExtra(CHAT_ROOM_DATA, qiscusChatRoom);
+                setResult(RESULT_OK, intent);
+            }
+        }
     }
 }

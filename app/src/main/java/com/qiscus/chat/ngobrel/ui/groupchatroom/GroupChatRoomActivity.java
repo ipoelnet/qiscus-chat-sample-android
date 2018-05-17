@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import com.qiscus.chat.ngobrel.ui.groupdetail.GroupDetailActivity;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
@@ -59,13 +58,8 @@ public class GroupChatRoomActivity extends QiscusGroupChatActivity {
     @Override
     protected void onViewReady(Bundle savedInstanceState) {
         super.onViewReady(savedInstanceState);
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(GroupDetailActivity.generateIntent(GroupChatRoomActivity.this, qiscusChatRoom),
-                        RC_MODIFY_GROUP);
-            }
-        });
+        toolbar.setOnClickListener(v -> startActivityForResult(GroupDetailActivity.generateIntent(GroupChatRoomActivity.this, qiscusChatRoom),
+                RC_MODIFY_GROUP));
     }
 
     @Override
