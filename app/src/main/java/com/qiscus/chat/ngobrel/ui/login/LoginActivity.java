@@ -53,7 +53,11 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     @Override
     public void showHomePage() {
-        startActivity(new Intent(this, HomePageTabActivity.class));
+        startActivity(
+                new Intent(this, HomePageTabActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        );
     }
 
     @Override
