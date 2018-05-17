@@ -106,7 +106,7 @@ public abstract class SortedRecyclerViewAdapter<Item, VH extends RecyclerView.Vi
         int i = findPosition(item);
         if (i >= 0) {
             data.updateItemAt(i, item);
-            notifyItemChanged(i);
+            notifyDataSetChanged();
         } else {
             add(item);
         }
