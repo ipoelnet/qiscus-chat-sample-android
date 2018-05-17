@@ -15,38 +15,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <com.qiscus.sdk.ui.view.QiscusCircularImageView
-                    android:id="@+id/single_avatar"
-                    android:layout_width="97dp"
-                    android:layout_height="97dp"
-                    android:layout_margin="16dp"
-                    android:src="@drawable/ic_default_avatar" />
-
-                <ProgressBar
-                    android:id="@+id/upload_progress"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="8dp"
-                    android:visibility="gone" />
-
-                <com.qiscus.sdk.ui.view.QiscusCircularImageView
-                    android:id="@+id/upload_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="bottom|right"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginRight="25dp"
-                    android:background="@drawable/ic_upload"
-                    android:tint="#C4C4C4"
-                    android:visibility="gone" />
-            </FrameLayout>
+            <com.qiscus.sdk.ui.view.QiscusCircularImageView
+                android:id="@+id/single_avatar"
+                android:layout_width="97dp"
+                android:layout_height="97dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_default_avatar" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -58,7 +32,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-
                     android:text="Display Name"
                     android:textColor="@color/orangeIcon" />
 
@@ -90,7 +63,6 @@
             android:id="@+id/underline"
             android:layout_width="fill_parent"
             android:layout_height="0.0001dp"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/underlineGrey"
@@ -124,7 +96,6 @@
             android:id="@+id/underlineSecond"
             android:layout_width="fill_parent"
             android:layout_height="0.0001dp"
-            android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/underlineGrey"

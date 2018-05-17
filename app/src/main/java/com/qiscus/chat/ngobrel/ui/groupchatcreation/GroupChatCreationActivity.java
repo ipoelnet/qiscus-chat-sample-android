@@ -1,14 +1,11 @@
 package com.qiscus.chat.ngobrel.ui.groupchatcreation;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,17 +15,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.qiscus.chat.ngobrel.NgobrelApp;
 import com.qiscus.chat.ngobrel.R;
-import com.qiscus.chat.ngobrel.model.Person;
-import com.qiscus.chat.ngobrel.repository.AlumnusRepository;
-import com.qiscus.chat.ngobrel.repository.RepositoryTransactionListener;
-import com.qiscus.chat.ngobrel.ui.groupchatroom.GroupChatRoomActivity;
-import com.qiscus.chat.ngobrel.ui.privatechatcreation.PrivateChatCreationActivity;
-import com.qiscus.sdk.Qiscus;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.chat.ngobrel.data.model.User;
+import com.qiscus.chat.ngobrel.ui.groupchatcreation.groupinfo.GroupInfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,201 +29,90 @@ import java.util.List;
  * Created by omayib on 05/11/17.
  */
 
-public class GroupChatCreationActivity extends AppCompatActivity implements RepositoryTransactionListener, ViewHolder.OnContactClickedListener, View.OnClickListener, GroupNameDialogFragment.OnGroupNameCreatedListener, GroupInfoFragment.OnFragmentInteractionListener, GroupInfoFragment.MyEmailListener, SelectedViewHolder.OnContactClickedListener {
+public class GroupChatCreationActivity extends AppCompatActivity implements GroupChatCreationPresenter.View {
     private static final String TAG = "GroupChatCreationActivity";
-    private RecyclerView mRecyclerView, mRecyclerViewSelected;
-    private LinearLayoutManager mLinearLayoutManager, mLinearLayoutManagerSelected;
-    private RecyclerAdapter mAdapter;
-    private RecyclerSelectedAdapter mSelectedAdapter;
-    private ArrayList<Person> alumnusList;
-    private ArrayList<Person> selectedList = new ArrayList<>();
-    private AlumnusRepository alumnusRepository;
-    private ArrayList<String> contacts = new ArrayList<>();
-    private FloatingActionButton nextFab;
-    private ProgressDialog progressDialog;
+    private RecyclerView selectedContactRecyclerView;
+    private ContactAdapter contactAdapter;
+    private SelectedContactAdapter selectedContactAdapter;
     private SearchView searchView;
-    private View underline;
-    private TextView contactText;
+
+    private GroupChatCreationPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_group_creation);
 
-        setContentView(R.layout.activity_alumni_list);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
         toolbar.setVisibility(View.GONE);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        this.setTitle("Select Participants");
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        setTitle("Select Participants");
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        nextFab = (FloatingActionButton) findViewById(R.id.nextFloatingButton);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewAlumni);
-        mRecyclerViewSelected = (RecyclerView) findViewById(R.id.recyclerViewSelected);
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mLinearLayoutManagerSelected = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerViewSelected.setLayoutManager(mLinearLayoutManagerSelected);
-        alumnusRepository = new AlumnusRepository();
-        alumnusRepository.setListener(this);
-        progressDialog = new ProgressDialog(this);
-        underline = findViewById(R.id.underline);
-        underline.setVisibility(View.VISIBLE);
-        contactText = (TextView) findViewById(R.id.contacts_text);
-        contactText.setVisibility(View.VISIBLE);
-        mRecyclerViewSelected.setVisibility(View.VISIBLE);
-        progressDialog.setMessage("Please wait...");
-        ArrayList<Person> alumnusListTemp = alumnusRepository.getCachedData();
-        for (Person person : alumnusListTemp) {
-            if (person.isSelected())
-                person.setSelected(false);
-        }
-        alumnusList = new ArrayList<Person>(alumnusListTemp);
-        nextFab.setVisibility(View.VISIBLE);
-        nextFab.setOnClickListener(this);
-        //alumnusRepository.loadAll();
-        mAdapter = new RecyclerAdapter((ArrayList<Person>) alumnusList, GroupChatCreationActivity.this);
-        mRecyclerView.setAdapter(mAdapter);
 
-        mSelectedAdapter = new RecyclerSelectedAdapter(selectedList, GroupChatCreationActivity.this);
-        mRecyclerViewSelected.setAdapter(mSelectedAdapter);
-    }
+        FloatingActionButton nextFab = findViewById(R.id.nextFloatingButton);
 
+        RecyclerView contactRecyclerView = findViewById(R.id.recyclerViewAlumni);
+        contactRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        contactRecyclerView.setHasFixedSize(true);
 
-    @SuppressLint("LongLogTag")
-    private void createGroupChat(String groupName) {
-        progressDialog.show();
-        Qiscus.buildGroupChatRoom(groupName, contacts).build(new Qiscus.ChatBuilderListener() {
-            @Override
-            public void onSuccess(QiscusChatRoom qiscusChatRoom) {
-                progressDialog.dismiss();
-                startActivity(GroupChatRoomActivity.generateIntent(GroupChatCreationActivity.this, qiscusChatRoom));
-                finish();
-            }
+        contactAdapter = new ContactAdapter(this, position -> {
+            presenter.selectContact(contactAdapter.getData().get(position));
+        });
+        contactRecyclerView.setAdapter(contactAdapter);
 
-            @Override
-            public void onError(Throwable throwable) {
-                progressDialog.dismiss();
-                throwable.printStackTrace();
+        selectedContactRecyclerView = findViewById(R.id.recyclerViewSelected);
+        selectedContactRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        selectedContactRecyclerView.setHasFixedSize(true);
+
+        selectedContactAdapter = new SelectedContactAdapter(this, position -> {
+            presenter.selectContact(selectedContactAdapter.getData().get(position));
+        });
+        selectedContactRecyclerView.setAdapter(selectedContactAdapter);
+
+        nextFab.setOnClickListener(v -> {
+            if (isFragmentOn()) {
+                GroupInfoFragment currentFragment = (GroupInfoFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayout);
+                currentFragment.proceedCreateGroup();
+            } else {
+                searchView.onActionViewCollapsed();
+                if (selectedContactIsMoreThanOne()) {
+                    List<User> contacts = new ArrayList<>();
+                    int size = selectedContactAdapter.getData().size();
+                    for (int i = 0; i < size; i++) {
+                        contacts.add(selectedContactAdapter.getData().get(i).getUser());
+                    }
+
+                    Fragment fr = GroupInfoFragment.newInstance(contacts);
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.frameLayout, fr)
+                            .addToBackStack("tag")
+                            .commit();
+                } else {
+                    Toast.makeText(this, "select at least one", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //if  (!isFragmentOn()) {
-        //    alumnusRepository.loadAll();
-        //}
+        presenter = new GroupChatCreationPresenter(this, NgobrelApp.getInstance().getComponent().getUserRepository());
+        presenter.loadContacts();
+
     }
 
     private boolean isFragmentOn() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
         return !(currentFragment == null || !currentFragment.isVisible());
-
-    }
-
-    @Override
-    public void onLoadAlumnusSucceeded(final List<Person> alumnus) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter = new RecyclerAdapter((ArrayList<Person>) alumnus, GroupChatCreationActivity.this);
-                mRecyclerView.setAdapter(mAdapter);
-            }
-        });
-    }
-
-    @SuppressLint("LongLogTag")
-    @Override
-    public void onContactSelected(String userEmail) {
-        if (!contacts.contains(userEmail)) {
-            setPersonSelected(userEmail, true);
-        }
-
-    }
-
-    private void setPersonSelected(String userEmail, boolean selected) {
-        for (Person person : alumnusList) {
-            if (person.getEmail().toLowerCase().equals(userEmail.toLowerCase())) {
-                person.setSelected(selected);
-                if (selected) {
-                    selectedList.add(person);
-                } else {
-                    selectedList.remove(person);
-                }
-                mSelectedAdapter.notifyDataSetChanged();
-            }
-        }
-        if (selected) {
-            contacts.add(userEmail);
-        } else {
-            contacts.remove(userEmail);
-        }
-    }
-
-    @SuppressLint("LongLogTag")
-    @Override
-    public void onContactUnselected(String userEmail) {
-        if (contacts.contains(userEmail)) {
-            setPersonSelected(userEmail, false);
-        }
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (isFragmentOn()) {
-            GroupInfoFragment currentFragment = (GroupInfoFragment) getSupportFragmentManager().findFragmentById(R.id.frameLayout);
-            currentFragment.proceedCreateGroup();
-        } else {
-            searchView.onActionViewCollapsed();
-            if (selectedContactIsMoreThanOne()) {
-                selectedList.clear();
-                for (Person person : alumnusList) {
-                    for (String email : contacts) {
-                        if (email.equals(person.getEmail())) {
-                            selectedList.add(person);
-                        }
-                    }
-
-                }
-                Fragment fr = GroupInfoFragment.newInstance(contacts, selectedList);
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.frameLayout, fr)
-                        .addToBackStack("tag")
-                        .commit();
-
-                //GroupNameDialogFragment dialogFragment = new GroupNameDialogFragment(this);
-                //dialogFragment.show(getFragmentManager(),"show_group_name");
-            } else {
-                Toast.makeText(this, "select at least one", Toast.LENGTH_SHORT).show();
-            }
-        }
-
     }
 
     private boolean selectedContactIsMoreThanOne() {
-        return this.contacts.size() > 0;
+        return selectedContactAdapter.getData().size() > 0;
     }
 
     @Override
-    public void onGroupNameCreated(String groupName) {
-        createGroupChat(groupName);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_search) {
-
-        } else {
+        if (item.getItemId() != R.id.action_search) {
             onReturn();
         }
-
 
         return true;
     }
@@ -239,17 +120,8 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
     private void onReturn() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frameLayout);
         if (currentFragment == null || !currentFragment.isVisible()) {
-
-            startActivity(new Intent(this, PrivateChatCreationActivity.class));
             finish();
-            overridePendingTransition(0, 1);
         } else {
-//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//            fragmentTransaction.remove(currentFragment);
-//
-//            getSupportFragmentManager().popBackStack();
-//            fragmentTransaction.commit();
-            Toast.makeText(this, "remove fragment", Toast.LENGTH_SHORT);
             getSupportFragmentManager()
                     .beginTransaction()
                     .remove(currentFragment)
@@ -262,88 +134,56 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
         onReturn();
     }
 
-
     @Override
-    public void processPerson(String email, boolean selected) {
-        setPersonSelected(email, selected);
-        mAdapter = new RecyclerAdapter(alumnusList, GroupChatCreationActivity.this);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onSelectionUnselected(String userEmail) {
-        processPerson(userEmail, false);
-    }
-
-    @Override
-
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
-
         inflater.inflate(R.menu.menu_search, menu);
-
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
-
             public boolean onQueryTextSubmit(String query) {
-
                 query = query.toString().toLowerCase();
-
-                final ArrayList<Person> filteredList = new ArrayList<>();
-
-                for (int i = 0; i < alumnusList.size(); i++) {
-
-                    final String text = alumnusList.get(i).getName().toLowerCase();
-                    if (text.contains(query)) {
-
-                        filteredList.add(alumnusList.get(i));
-                    }
-                }
-                mAdapter = new RecyclerAdapter(filteredList, GroupChatCreationActivity.this);
-                mRecyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();  // data set changed
-
+                presenter.search(query);
                 searchView.clearFocus();
-
-
                 return true;
-
             }
 
 
             @Override
-
             public boolean onQueryTextChange(String newText) {
                 newText = newText.toString().toLowerCase();
-
-                final ArrayList<Person> filteredList = new ArrayList<>();
-
-                for (int i = 0; i < alumnusList.size(); i++) {
-
-                    final String text = alumnusList.get(i).getEmail().toLowerCase();
-                    if (text.contains(newText)) {
-
-                        filteredList.add(alumnusList.get(i));
-                    }
-                }
-                mAdapter = new RecyclerAdapter(filteredList, GroupChatCreationActivity.this);
-                mRecyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();  // data set changed
-
+                presenter.search(newText);
                 return true;
-
             }
 
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public void showContacts(List<SelectableUser> contacts) {
+        contactAdapter.clear();
+        contactAdapter.addOrUpdate(contacts);
+    }
+
+    @Override
+    public void onSelectedContactChange(SelectableUser contact) {
+        contactAdapter.addOrUpdate(contact);
+        if (contact.isSelected()) {
+            selectedContactAdapter.addOrUpdate(contact);
+        } else {
+            selectedContactAdapter.remove(contact);
+        }
+
+        selectedContactRecyclerView.setVisibility(selectedContactAdapter.getItemCount() > 0 ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showErrorMessage(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

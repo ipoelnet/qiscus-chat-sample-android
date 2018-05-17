@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':chat'
+project(':chat').projectDir = new File('/Users/zetra./Documents/Android_Project/qiscus-chat-library/chat')

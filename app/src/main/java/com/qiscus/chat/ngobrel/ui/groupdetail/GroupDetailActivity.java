@@ -1,8 +1,8 @@
 package com.qiscus.chat.ngobrel.ui.groupdetail;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +12,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.qiscus.chat.ngobrel.NgobrelApp;
 import com.qiscus.chat.ngobrel.R;
-import com.qiscus.chat.ngobrel.ui.common.OnItemClickListener;
+import com.qiscus.chat.ngobrel.data.model.User;
 import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusAccount;
@@ -30,17 +31,17 @@ import com.qiscus.sdk.data.model.QiscusRoomMember;
  * Name       : Zetra
  * GitHub     : https://github.com/zetbaitsu
  */
-public class GroupDetailActivity extends AppCompatActivity {
+public class GroupDetailActivity extends AppCompatActivity implements GroupDetailPresenter.View {
     protected static final String CHAT_ROOM_DATA = "chat_room_data";
     private static final int RC_ADD_PARTICIPANTS = 3;
     protected QiscusChatRoom qiscusChatRoom;
 
     private EditText groupName;
     private ImageView groupAvatar;
-    private RecyclerView recyclerView;
-    private FloatingActionButton addParticipantButton;
+    private ProgressDialog progressDialog;
     private MemberAdapter memberAdapter;
 
+    private GroupDetailPresenter presenter;
     private QiscusAccount account = Qiscus.getQiscusAccount();
 
     public static Intent generateIntent(Context context, QiscusChatRoom qiscusChatRoom) {
@@ -60,23 +61,17 @@ public class GroupDetailActivity extends AppCompatActivity {
             return;
         }
 
+        presenter = new GroupDetailPresenter(this, NgobrelApp.getInstance().getComponent().getChatRoomRepository());
+
         groupName = findViewById(R.id.group_name_input);
         groupAvatar = findViewById(R.id.group_avatar);
-        recyclerView = findViewById(R.id.recyclerView);
-        addParticipantButton = findViewById(R.id.addParticipant);
-        addParticipantButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addNewMember();
-            }
-        });
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        FloatingActionButton addParticipantButton = findViewById(R.id.addParticipant);
+        addParticipantButton.setOnClickListener(v -> addNewMember());
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait!");
 
-        memberAdapter = new MemberAdapter(this, new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                onMemberClick(memberAdapter.getData().get(position));
-            }
-        });
+        memberAdapter = new MemberAdapter(this, position -> onMemberClick(memberAdapter.getData().get(position)));
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(memberAdapter);
@@ -91,12 +86,7 @@ public class GroupDetailActivity extends AppCompatActivity {
             CharSequence[] memberOptions = {"Remove"};
             new AlertDialog.Builder(this)
                     .setTitle(qiscusRoomMember.getUsername())
-                    .setItems(memberOptions, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            removeMember(qiscusRoomMember);
-                        }
-                    })
+                    .setItems(memberOptions, (dialog, which) -> removeMember(qiscusRoomMember))
                     .setCancelable(true)
                     .create()
                     .show();
@@ -107,8 +97,8 @@ public class GroupDetailActivity extends AppCompatActivity {
         //startActivityForResult(AddGroupParticipantsActivity.generateIntent(this, qiscusChatRoom), RC_ADD_PARTICIPANTS);
     }
 
-    private void removeMember(QiscusRoomMember qiscusRoomMember) {
-
+    private void removeMember(QiscusRoomMember member) {
+        presenter.removeMember(qiscusChatRoom.getId(), new User(member.getEmail(), member.getUsername(), member.getAvatar()));
     }
 
     protected void resolveChatRoom(Bundle savedInstanceState) {
@@ -140,5 +130,27 @@ public class GroupDetailActivity extends AppCompatActivity {
 
     private void updateRoomName() {
 
+    }
+
+    @Override
+    public void onMemberRemoved(User user) {
+        QiscusRoomMember member = new QiscusRoomMember();
+        member.setEmail(user.getId());
+        memberAdapter.remove(member);
+    }
+
+    @Override
+    public void showLoading() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void dismissLoading() {
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public void showErrorMessage(String errorMessage) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

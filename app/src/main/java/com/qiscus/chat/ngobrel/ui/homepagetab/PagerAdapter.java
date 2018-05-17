@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.qiscus.chat.ngobrel.ui.homepagetab.contact.ContactFragment;
-import com.qiscus.chat.ngobrel.ui.homepagetab.recenconversation.RecentConversationFragment;
+import com.qiscus.chat.ngobrel.ui.homepagetab.recentconversation.RecentConversationFragment;
 
 /**
  * Created by asyrof on 17/11/17.
@@ -23,11 +23,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                RecentConversationFragment tab1 = new RecentConversationFragment();
-                return tab1;
+                return new RecentConversationFragment();
             case 1:
-                ContactFragment tab2 = new ContactFragment();
-                return tab2;
+                return new ContactFragment();
             default:
                 return null;
         }

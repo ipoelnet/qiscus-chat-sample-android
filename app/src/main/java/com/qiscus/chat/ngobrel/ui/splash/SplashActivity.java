@@ -15,14 +15,11 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int splashInterval = 10;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!Qiscus.hasSetupUser()) {
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                } else {
-                    startActivity(new Intent(SplashActivity.this, HomePageTabActivity.class));
-                }
+        new Handler().postDelayed(() -> {
+            if (!Qiscus.hasSetupUser()) {
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            } else {
+                startActivity(new Intent(SplashActivity.this, HomePageTabActivity.class));
             }
         }, splashInterval);
     }

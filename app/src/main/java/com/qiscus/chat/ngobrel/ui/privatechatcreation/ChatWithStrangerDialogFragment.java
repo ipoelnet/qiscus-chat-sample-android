@@ -1,6 +1,5 @@
 package com.qiscus.chat.ngobrel.ui.privatechatcreation;
 
-import android.annotation.SuppressLint;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,21 +10,19 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.qiscus.chat.ngobrel.NgobrelApp;
 import com.qiscus.chat.ngobrel.R;
+import com.qiscus.chat.ngobrel.data.model.User;
+import com.qiscus.chat.ngobrel.data.repository.ChatRoomRepository;
+import com.qiscus.sdk.ui.QiscusChatActivity;
 
 /**
  * Created by omayib on 05/11/17.
  */
-
-@SuppressLint("ValidFragment")
 public class ChatWithStrangerDialogFragment extends DialogFragment {
     private EditText editText;
-    private final OnStrangerNameInputtedListener listener;
 
-    @SuppressLint("ValidFragment")
-    public ChatWithStrangerDialogFragment(OnStrangerNameInputtedListener listener) {
-        this.listener = listener;
-    }
+    private ChatRoomRepository chatRoomRepository;
 
     @Override
     public void onResume() {
@@ -42,30 +39,25 @@ public class ChatWithStrangerDialogFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.dialog_stranger_name, container, false);
         getDialog().setTitle("Stranger name");
         editText = rootView.findViewById(R.id.editText);
+
+        chatRoomRepository = NgobrelApp.getInstance().getComponent().getChatRoomRepository();
+
         Button buttonOk = rootView.findViewById(R.id.confirm_button);
         Button buttonCancel = rootView.findViewById(R.id.cancel_button);
 
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getDialog().dismiss();
-            }
-        });
+        buttonCancel.setOnClickListener(view -> getDialog().dismiss());
 
-        buttonOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!editText.getText().toString().isEmpty()) {
-                    listener.onStrangerNameInputted(editText.getText().toString());
-                    dismiss();
-                }
+        buttonOk.setOnClickListener(view -> {
+            if (!editText.getText().toString().isEmpty()) {
+                chatRoomRepository.createChatRoom(new User(editText.getText().toString(), "", ""),
+                        qiscusChatRoom -> {
+                            startActivity(QiscusChatActivity.generateIntent(getActivity(), qiscusChatRoom));
+                            dismiss();
+                        },
+                        Throwable::printStackTrace);
+                dismiss();
             }
         });
         return rootView;
     }
-
-    public interface OnStrangerNameInputtedListener {
-        void onStrangerNameInputted(String groupName);
-    }
-
 }
