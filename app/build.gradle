@@ -1,7 +1,13 @@
 apply plugin: 'com.android.application'
 
+def nevercodeBuild = System.getenv()["NEVERCODE_BUILD"]
+def localPropertiesPath = 'local.properties'
+if (nevercodeBuild) {
+    localPropertiesPath = file(System.getenv()["GH_LOCAL_PROPERTIES_PATH"])
+}
+
 Properties properties = new Properties()
-InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+InputStream inputStream = project.rootProject.file(localPropertiesPath).newDataInputStream()
 properties.load( inputStream )
 
 android {
