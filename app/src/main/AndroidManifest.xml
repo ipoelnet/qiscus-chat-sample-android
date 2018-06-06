@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.qiscus.chat.ngobrel">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -38,6 +39,10 @@
             android:name=".ui.homepagetab.HomePageTabActivity"
             android:theme="@style/TabTheme" />
         <activity android:name=".ui.profile.ProfileActivity" />
+        <activity
+            android:name="com.qiscus.sdk.ui.QiscusChatActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:replace="android:theme" />
         <activity
             android:name=".ui.groupchatroom.GroupChatRoomActivity"
             android:theme="@style/AppTheme.NoActionBar" />

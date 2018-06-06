@@ -34,6 +34,8 @@ public class NgobrelApp extends Application {
                 .setRightBubbleTextColor(R.color.qiscus_white)
                 .setRightBubbleTimeColor(R.color.qiscus_white)
                 .setReadIconColor(R.color.colorAccent)
+                .setReplyBarColor(R.color.colorPrimary)
+                .setReplySenderColor(R.color.colorPrimary)
                 .setEmptyRoomImageResource((R.drawable.ic_room_empty))
                 .setEnableFcmPushNotification(true)
                 .setNotificationBigIcon(R.drawable.ic_logo_qiscus)
