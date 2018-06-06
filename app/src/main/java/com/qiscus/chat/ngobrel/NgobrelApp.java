@@ -55,6 +55,7 @@ public class NgobrelApp extends Application {
                         .openChatQiscusCommentRoom(context, qiscusComment)
                         .withParentClass(HomePageTabActivity.class)
                         .start())
+                .setOnlyEnablePushNotificationOutsideChatRoom(true)
                 .setEnableAddLocation(true)
                 .setEmptyRoomTitleColor(R.color.orangeIcon)
                 .setAccentColor(R.color.colorAccent)
