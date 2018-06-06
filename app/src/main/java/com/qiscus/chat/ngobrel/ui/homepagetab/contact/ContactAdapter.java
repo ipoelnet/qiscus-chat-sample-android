@@ -33,7 +33,7 @@ public class ContactAdapter extends SortedRecyclerViewAdapter<User, ContactViewH
 
     @Override
     protected int compare(User item1, User item2) {
-        return item1.getName().compareTo(item2.getName());
+        return item1.getName().toLowerCase().compareTo(item2.getName().toLowerCase());
     }
 
     @NonNull
