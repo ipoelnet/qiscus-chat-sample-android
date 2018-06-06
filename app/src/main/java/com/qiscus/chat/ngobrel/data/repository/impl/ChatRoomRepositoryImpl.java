@@ -53,6 +53,7 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
                 .flatMap(Observable::from)
                 .doOnNext(qiscusChatRoom ->
                         qiscusChatRoom.setLastComment(Qiscus.getDataStore().getLatestNotEncryptedComment(qiscusChatRoom.getId())))
+                .filter(qiscusChatRoom -> qiscusChatRoom.isGroup() || qiscusChatRoom.getLastComment() != null)
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
