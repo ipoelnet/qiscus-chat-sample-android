@@ -56,11 +56,16 @@ public class NgobrelApp extends Application {
                         .withParentClass(HomePageTabActivity.class)
                         .start())
                 .setOnlyEnablePushNotificationOutsideChatRoom(true)
+                .setInlineReplyColor(R.color.colorPrimary)
                 .setEnableAddLocation(true)
                 .setEmptyRoomTitleColor(R.color.orangeIcon)
                 .setAccentColor(R.color.colorAccent)
                 .setEnableEndToEndEncryption(true)
                 .getDeleteCommentConfig().setEnableDeleteComment(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Qiscus.getChatConfig().setEnableReplyNotification(true);
+        }
     }
 
     public AppComponent getComponent() {
