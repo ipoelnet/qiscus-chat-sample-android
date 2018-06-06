@@ -7,6 +7,7 @@ import com.qiscus.chat.ngobrel.util.Action;
 import com.qiscus.chat.ngobrel.util.AvatarUtil;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.sdk.data.model.QiscusComment;
 import com.qiscus.sdk.data.remote.QiscusApi;
 
 import java.util.ArrayList;
@@ -34,6 +35,12 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
 
         QiscusApi.getInstance()
                 .getChatRoom(roomId)
+                .doOnNext(qiscusChatRoom -> {
+                    QiscusComment lastComment = qiscusChatRoom.getLastComment();
+                    if (lastComment != null && lastComment.isEncrypted()) {
+                        qiscusChatRoom.setLastComment(null);
+                    }
+                })
                 .doOnNext(chatRoom -> Qiscus.getDataStore().addOrUpdate(chatRoom))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -44,7 +51,8 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
     public void getChatRooms(Action<List<QiscusChatRoom>> onSuccess, Action<Throwable> onError) {
         Observable.fromCallable(() -> Qiscus.getDataStore().getChatRooms(100))
                 .flatMap(Observable::from)
-                .filter(chatRoom -> chatRoom.getLastComment() != null)
+                .doOnNext(qiscusChatRoom ->
+                        qiscusChatRoom.setLastComment(Qiscus.getDataStore().getLatestNotEncryptedComment(qiscusChatRoom.getId())))
                 .toList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

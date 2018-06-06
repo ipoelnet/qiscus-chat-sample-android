@@ -32,8 +32,17 @@ public class RecentConversationAdapter extends SortedRecyclerViewAdapter<QiscusC
     }
 
     @Override
-    protected int compare(QiscusChatRoom item1, QiscusChatRoom item2) {
-        return item2.getLastComment().getTime().compareTo(item1.getLastComment().getTime());
+    protected int compare(QiscusChatRoom lhs, QiscusChatRoom rhs) {
+        if (lhs.getLastComment() != null && rhs.getLastComment() != null) {
+            return rhs.getLastComment().getTime().compareTo(lhs.getLastComment().getTime());
+        }
+        if (lhs.getLastComment() != null && rhs.getLastComment() == null) {
+            return -1;
+        }
+        if (lhs.getLastComment() == null && rhs.getLastComment() != null) {
+            return 1;
+        }
+        return lhs.getName().toLowerCase().compareTo(rhs.getName().toLowerCase());
     }
 
     @NonNull

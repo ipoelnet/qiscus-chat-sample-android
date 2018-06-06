@@ -72,6 +72,12 @@ public class RecentConversationViewHolder extends RecyclerView.ViewHolder implem
     }
 
     private void bindLastComment(QiscusComment comment) {
+        if (comment == null) {
+            lastMessage.setText("");
+            lastMessageTime.setText("");
+            return;
+        }
+
         String messageText = comment.isMyComment() ? "You: " : comment.getSender().split(" ")[0] + ": ";
         switch (comment.getType()) {
             case IMAGE:
