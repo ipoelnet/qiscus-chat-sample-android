@@ -46,8 +46,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    //implementation 'com.qiscus.sdk:chat:2.24.3-e2e-encryption-snapshot2'
-    implementation project(':chat')
+    implementation 'com.qiscus.sdk:chat:2.24.3-e2e-encryption-snapshot3'
+    //implementation project(':chat')
 
     implementation 'com.facebook.stetho:stetho:1.5.0'
 }
