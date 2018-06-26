@@ -46,6 +46,7 @@ public class SampleApp extends Application {
                 .setRightBubbleTimeColor(R.color.qiscus_white)
                 .setReadIconColor(R.color.colorAccent)
                 .setEmptyRoomImageResource((R.drawable.ic_room_empty))
+                .setEnableFcmPushNotification(true)
                 .setNotificationBigIcon(R.drawable.ic_logo_qiscus)
                 .setNotificationClickListener(new NotificationClickListener() {
                     @Override
