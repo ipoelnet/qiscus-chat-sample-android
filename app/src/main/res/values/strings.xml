@@ -2,7 +2,7 @@
     <string name="app_name">Qiscus Messenger</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">e.g Email, Phone number, etc</string>
+    <string name="prompt_email">Only Numbers,Alphabet characters and .-_@</string>
     <string name="prompt_password">Type Password Here</string>
     <string name="prompt_displayname">Type Display Name Here</string>
     <string name="action_sign_in">LOGIN</string>
