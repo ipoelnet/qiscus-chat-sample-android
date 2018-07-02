@@ -29,11 +29,11 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.qiscus.chat.sample.ui.groupchatroom.GroupChatRoomActivity;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.local.QiscusCacheManager;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
 import com.qiscus.sdk.data.remote.QiscusApi;
-import com.qiscus.sdk.ui.QiscusGroupChatActivity;
 import com.qiscus.sdk.util.QiscusImageUtil;
 import com.squareup.picasso.Picasso;
 
@@ -42,7 +42,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
+import com.qiscus.chat.sample.model.User;
 import com.qiscus.chat.sample.util.FileUtil;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -69,7 +69,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
     private RecyclerAdapter mAdapter;
     private ProgressDialog progressDialog;
     private ArrayList<String> contacts = new ArrayList<>();
-    private ArrayList<Person> personList;
+    private ArrayList<User> userList;
     // TODO: Rename and change types of parameters
     private String avatarUrl = "";
     private OnFragmentInteractionListener mListener;
@@ -89,14 +89,14 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
      * @return A new instance of fragment GroupInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GroupInfoFragment newInstance(ArrayList<String> contactsList, ArrayList<Person> personList) {
+    public static GroupInfoFragment newInstance(ArrayList<String> contactsList, ArrayList<User> userList) {
         GroupInfoFragment fragment = new GroupInfoFragment();
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(CONTACT_KEY, contactsList);
         fragment.setArguments(bundle);
 
-        bundle.putSerializable(PERSON_KEY, personList);
+        bundle.putSerializable(PERSON_KEY, userList);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -116,7 +116,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
 
         contacts = (ArrayList<String>) getArguments().getSerializable(
                 CONTACT_KEY);
-        personList = (ArrayList<Person>) getArguments().getSerializable(
+        userList = (ArrayList<User>) getArguments().getSerializable(
                 PERSON_KEY);
         android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -134,7 +134,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
         mLinearLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         groupNameView = (EditText) view.findViewById(R.id.group_name_input);
-        mAdapter = new RecyclerAdapter(personList, this,true);
+        mAdapter = new RecyclerAdapter(userList, this,true);
         mRecyclerView.setAdapter(mAdapter);
         return view;//  inflater.inflate(R.layout.fragment_group_info, container, false);
     }
@@ -268,7 +268,7 @@ public class GroupInfoFragment extends Fragment implements View.OnClickListener,
                     public void onSuccess(QiscusChatRoom qiscusChatRoom) {
                         progressDialog.dismiss();
                         //startActivity(QiscusGroupChatActivity.generateIntent(getActivity(), qiscusChatRoom));
-                        Intent intent = new Intent(QiscusGroupChatActivity.generateIntent(getActivity(), qiscusChatRoom));
+                        Intent intent = new Intent(GroupChatRoomActivity.generateIntent(getActivity(), qiscusChatRoom));
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         getActivity().finish();

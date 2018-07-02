@@ -7,7 +7,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qiscus.chat.sample.model.Person;
+import com.qiscus.chat.sample.model.User;
 
 /**
  * Created by omayib on 22/09/17.
@@ -27,7 +27,7 @@ public class AlumnusRepository {
         remoteRepo = new RemoteRepository();
     }
 
-    public ArrayList<Person> getCachedData() {
+    public ArrayList<User> getCachedData() {
         return ((CachedData) cacheRepo).alumnus;
     }
 
@@ -44,9 +44,9 @@ public class AlumnusRepository {
             return;
         }*/
         Log.d(TAG, "loadAll: localrepo");
-        localRepo.loadAll(new RepositoryCallback<List<Person>>() {
+        localRepo.loadAll(new RepositoryCallback<List<User>>() {
             @Override
-            public void onSucceed(List<Person> value) {
+            public void onSucceed(List<User> value) {
                 reloadAll();
                 /*if(!value.isEmpty()){
                     cacheRepo.save(value);
@@ -65,9 +65,9 @@ public class AlumnusRepository {
     }
     public void reloadAll(){
         Log.d(TAG, "reloadAll: ");
-        remoteRepo.loadAll(new RepositoryCallback<List<Person>>() {
+        remoteRepo.loadAll(new RepositoryCallback<List<User>>() {
             @Override
-            public void onSucceed(final List<Person> value) {
+            public void onSucceed(final List<User> value) {
                 CachedData cachedData = (CachedData) cacheRepo;
                 cachedData.alumnus.clear();
                 cacheRepo.save(value);

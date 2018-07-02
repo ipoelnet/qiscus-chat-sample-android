@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
+import com.qiscus.chat.sample.model.User;
 
 /**
  * Created by asyrof on 04/12/17.
@@ -16,12 +16,12 @@ import com.qiscus.chat.sample.model.Person;
 
 
 public class RecyclerSelectedAdapter extends RecyclerView.Adapter<SelectedViewHolder> {
-    private ArrayList<Person> selectedContacts = new ArrayList<>();
+    private ArrayList<User> selectedContacts = new ArrayList<>();
     private final SelectedViewHolder.OnContactClickedListener listener;
 
-    public RecyclerSelectedAdapter(ArrayList<Person> persons, SelectedViewHolder.OnContactClickedListener listener) {
+    public RecyclerSelectedAdapter(ArrayList<User> users, SelectedViewHolder.OnContactClickedListener listener) {
         this.listener = listener;
-        selectedContacts = persons;
+        selectedContacts = users;
     }
 
     @Override
@@ -32,8 +32,8 @@ public class RecyclerSelectedAdapter extends RecyclerView.Adapter<SelectedViewHo
 
     @Override
     public void onBindViewHolder(SelectedViewHolder holder, int position) {
-        final Person person = selectedContacts.get(position);
-        holder.bindSelected(person);
+        final User user = selectedContacts.get(position);
+        holder.bindSelected(user);
     }
 
 

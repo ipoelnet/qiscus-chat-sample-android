@@ -4,12 +4,12 @@ package com.qiscus.chat.sample.model;
  * Created by omayib on 05/11/17.
  */
 
-public class SelectableContact extends Person {
+public class SelectableContact extends User {
     private boolean isSelected = false;
 
-    public SelectableContact(Person person, boolean isSelected){
-        super(person.getId(), person.getName(), person.getEmail(),person.getJob());
-        this.setAvatarUrl(person.getAvatarUrl());
+    public SelectableContact(User user, boolean isSelected){
+        super(user.getId(), user.getName(), user.getEmail(), user.getJob());
+        this.setAvatarUrl(user.getAvatarUrl());
         this.isSelected = isSelected;
     }
 

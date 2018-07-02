@@ -38,6 +38,11 @@
             android:name="com.qiscus.chat.sample.ui.homepagetab.HomePageTabActivity"
             android:theme="@style/TabTheme" />
         <activity android:name="com.qiscus.chat.sample.ui.homepagetab.ProfileActivity"></activity>
+        <activity android:name=".ui.groupdetail.GroupDetailActivity" />
+        <activity android:name=".ui.addmember.AddGroupMemberActivity" />
+        <activity
+            android:name=".ui.groupchatroom.GroupChatRoomActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

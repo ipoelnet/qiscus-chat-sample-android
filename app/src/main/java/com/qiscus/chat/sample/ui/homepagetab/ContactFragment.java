@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.qiscus.chat.sample.model.User;
 import com.qiscus.sdk.Qiscus;
 
 import java.io.IOException;
@@ -32,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
 import com.qiscus.chat.sample.repository.AlumnusRepository;
 import com.qiscus.chat.sample.repository.RepositoryTransactionListener;
 import com.qiscus.chat.sample.ui.privatechatcreation.ChatWithStrangerDialogFragment;
@@ -46,7 +46,7 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private RecyclerAdapter mAdapter;
-    private ArrayList<Person> alumnusList;
+    private ArrayList<User> alumnusList;
     private AlumnusRepository alumnusRepository;
     private LinearLayout mEmptyRoomVIew;
     private SwipeRefreshLayout swipeContactRefreshLayout;
@@ -93,7 +93,7 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
     }
 
     @Override
-    public void onLoadAlumnusSucceeded(List<Person> alumnus) {
+    public void onLoadAlumnusSucceeded(List<User> alumnus) {
         if (swipeContactRefreshLayout != null) {
             swipeContactRefreshLayout.setRefreshing(false);
         }
@@ -117,7 +117,7 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
     }
 
     @Override
-    public void onContactClicked(final Person user) {
+    public void onContactClicked(final User user) {
         ContactDialogProfileFragment dialogFragment = new ContactDialogProfileFragment(user);
         dialogFragment.show(getActivity().getFragmentManager(),"ea");
     }
@@ -233,7 +233,7 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
 
                 query = query.toString().toLowerCase();
 
-                final ArrayList<Person> filteredList = new ArrayList<>();
+                final ArrayList<User> filteredList = new ArrayList<>();
 
                 for (int i = 0; i < alumnusList.size(); i++) {
 
@@ -262,7 +262,7 @@ public class ContactFragment extends Fragment implements RepositoryTransactionLi
             public boolean onQueryTextChange(String newText) {
                 newText = newText.toString().toLowerCase();
 
-                final ArrayList<Person> filteredList = new ArrayList<>();
+                final ArrayList<User> filteredList = new ArrayList<>();
 
                 for (int i = 0; i < alumnusList.size(); i++) {
 

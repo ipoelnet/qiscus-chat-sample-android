@@ -21,15 +21,15 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.qiscus.chat.sample.model.User;
+import com.qiscus.chat.sample.ui.groupchatroom.GroupChatRoomActivity;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.ui.QiscusGroupChatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
 import com.qiscus.chat.sample.repository.AlumnusRepository;
 import com.qiscus.chat.sample.repository.RepositoryTransactionListener;
 import com.qiscus.chat.sample.ui.privatechatcreation.PrivateChatCreationActivity;
@@ -44,8 +44,8 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
     private LinearLayoutManager mLinearLayoutManager,mLinearLayoutManagerSelected;
     private RecyclerAdapter mAdapter;
     private RecyclerSelectedAdapter mSelectedAdapter;
-    private ArrayList<Person> alumnusList;
-    private ArrayList<Person> selectedList = new ArrayList<>();
+    private ArrayList<User> alumnusList;
+    private ArrayList<User> selectedList = new ArrayList<>();
     private AlumnusRepository alumnusRepository;
     private ArrayList<String> contacts = new ArrayList<>();
     private FloatingActionButton nextFab;
@@ -82,16 +82,16 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
         contactText.setVisibility(View.VISIBLE);
         mRecyclerViewSelected.setVisibility(View.VISIBLE);
         progressDialog.setMessage("Please wait...");
-        ArrayList<Person> alumnusListTemp = alumnusRepository.getCachedData();
-        for (Person person : alumnusListTemp) {
-            if (person.isSelected())
-                person.setSelected(false);
+        ArrayList<User> alumnusListTemp = alumnusRepository.getCachedData();
+        for (User user : alumnusListTemp) {
+            if (user.isSelected())
+                user.setSelected(false);
         }
-        alumnusList = new ArrayList<Person>(alumnusListTemp);
+        alumnusList = new ArrayList<User>(alumnusListTemp);
         nextFab.setVisibility(View.VISIBLE);
         nextFab.setOnClickListener(this);
         //alumnusRepository.loadAll();
-        mAdapter = new RecyclerAdapter((ArrayList<Person>) alumnusList, GroupChatCreationActivity.this);
+        mAdapter = new RecyclerAdapter((ArrayList<User>) alumnusList, GroupChatCreationActivity.this);
         mRecyclerView.setAdapter(mAdapter);
 
         mSelectedAdapter = new RecyclerSelectedAdapter( selectedList, GroupChatCreationActivity.this);
@@ -106,7 +106,7 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
             @Override
             public void onSuccess(QiscusChatRoom qiscusChatRoom) {
                 progressDialog.dismiss();
-                startActivity(QiscusGroupChatActivity.generateIntent(GroupChatCreationActivity.this, qiscusChatRoom));
+                startActivity(GroupChatRoomActivity.generateIntent(GroupChatCreationActivity.this, qiscusChatRoom));
                 finish();
             }
 
@@ -133,11 +133,11 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
     }
 
     @Override
-    public void onLoadAlumnusSucceeded(final List<Person> alumnus) {
+    public void onLoadAlumnusSucceeded(final List<User> alumnus) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mAdapter = new RecyclerAdapter((ArrayList<Person>) alumnus, GroupChatCreationActivity.this);
+                mAdapter = new RecyclerAdapter((ArrayList<User>) alumnus, GroupChatCreationActivity.this);
                 mRecyclerView.setAdapter(mAdapter);
             }
         });
@@ -153,14 +153,14 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
     }
 
     private void setPersonSelected(String userEmail, boolean selected) {
-        for (Person person : alumnusList) {
-            if (person.getEmail().toLowerCase().equals(userEmail.toLowerCase())) {
-                person.setSelected(selected);
+        for (User user : alumnusList) {
+            if (user.getEmail().toLowerCase().equals(userEmail.toLowerCase())) {
+                user.setSelected(selected);
                 if (selected) {
-                  selectedList.add(person);
+                  selectedList.add(user);
                 }
                 else {
-                  selectedList.remove(person);
+                  selectedList.remove(user);
                 }
                 mSelectedAdapter.notifyDataSetChanged();
             }
@@ -194,11 +194,11 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
                 searchView.onActionViewCollapsed();
                 if (selectedContactIsMoreThanOne()){
                     selectedList.clear();
-                    for (Person person: alumnusList){
+                    for (User user : alumnusList){
                         for (String  email: contacts)
                         {
-                            if (email.equals(person.getEmail())) {
-                                selectedList.add(person);
+                            if (email.equals(user.getEmail())) {
+                                selectedList.add(user);
                             }
                         }
 
@@ -305,7 +305,7 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
 
                 query = query.toString().toLowerCase();
 
-                final ArrayList<Person> filteredList = new ArrayList<>();
+                final ArrayList<User> filteredList = new ArrayList<>();
 
                 for (int i = 0; i < alumnusList.size(); i++) {
 
@@ -334,7 +334,7 @@ public class GroupChatCreationActivity extends AppCompatActivity implements Repo
             public boolean onQueryTextChange(String newText) {
                 newText = newText.toString().toLowerCase();
 
-                final ArrayList<Person> filteredList = new ArrayList<>();
+                final ArrayList<User> filteredList = new ArrayList<>();
 
                 for (int i = 0; i < alumnusList.size(); i++) {
 

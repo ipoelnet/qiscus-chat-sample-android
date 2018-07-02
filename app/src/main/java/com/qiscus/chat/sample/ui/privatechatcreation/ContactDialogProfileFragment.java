@@ -12,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.qiscus.chat.sample.model.User;
 import com.qiscus.sdk.Qiscus;
 import com.squareup.picasso.Picasso;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
 
 /**
  * Created by asyrof on 18/12/17.
@@ -29,10 +29,10 @@ public class ContactDialogProfileFragment extends DialogFragment implements View
     ImageView contactAvatar;
     RelativeLayout startChat;
     // TODO: Rename and change types of parameters
-    private Person inputContact;
+    private User inputContact;
 
     @SuppressLint("ValidFragment")
-    public ContactDialogProfileFragment(Person user) {
+    public ContactDialogProfileFragment(User user) {
         this.inputContact = user;
     }
 

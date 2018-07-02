@@ -8,26 +8,26 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
+import com.qiscus.chat.sample.model.User;
 import com.qiscus.chat.sample.model.SelectableContact;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private final ArrayList<SelectableContact> contacts = new ArrayList<>();
     private final ViewHolder.OnContactClickedListener listener;
 
-    public RecyclerAdapter(ArrayList<Person> persons,ViewHolder.OnContactClickedListener listener) {
+    public RecyclerAdapter(ArrayList<User> users, ViewHolder.OnContactClickedListener listener) {
         this.listener = listener;
-        for (Person person :
-                persons) {
-            this.contacts.add(new SelectableContact(person, person.isSelected()));
+        for (User user :
+                users) {
+            this.contacts.add(new SelectableContact(user, user.isSelected()));
             }
     }
 
-    public RecyclerAdapter(ArrayList<Person> persons,ViewHolder.OnContactClickedListener listener,boolean isSelected) {
+    public RecyclerAdapter(ArrayList<User> users, ViewHolder.OnContactClickedListener listener, boolean isSelected) {
         this.listener = listener;
-        for (Person person :
-                persons) {
-            this.contacts.add(new SelectableContact(person,isSelected));
+        for (User user :
+                users) {
+            this.contacts.add(new SelectableContact(user,isSelected));
         }
     }
 

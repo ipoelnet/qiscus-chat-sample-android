@@ -5,10 +5,10 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.qiscus.chat.sample.model.User;
 import com.squareup.picasso.Picasso;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
 
 /**
  * Created by asyrof on 04/12/17.
@@ -19,7 +19,7 @@ public class SelectedViewHolder extends RecyclerView.ViewHolder implements View.
     private TextView itemName;
     private com.qiscus.sdk.ui.view.QiscusCircularImageView picture;
     //private ImageView picture;
-    private Person selectedContact;
+    private User selectedContact;
     private final SelectedViewHolder.OnContactClickedListener listener;
     private com.qiscus.sdk.ui.view.QiscusCircularImageView removeContact;
 
@@ -35,13 +35,13 @@ public class SelectedViewHolder extends RecyclerView.ViewHolder implements View.
 
     }
 
-    public void bindSelected(Person person) {
+    public void bindSelected(User user) {
 
-        this.selectedContact = person;
-        this.itemName.setText(person.getName());
-        String avatarUrl = person.getAvatarUrl();
+        this.selectedContact = user;
+        this.itemName.setText(user.getName());
+        String avatarUrl = user.getAvatarUrl();
         Picasso.with(this.picture.getContext()).load(avatarUrl).fit().centerCrop().into(picture);
-        //Picasso.with(this.picture.getContext()).load("http://lorempixel.com/200/200/people/"+ person.getName()).into(picture);
+        //Picasso.with(this.picture.getContext()).load("http://lorempixel.com/200/200/people/"+ user.getName()).into(picture);
     }
 
     @Override

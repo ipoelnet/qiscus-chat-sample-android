@@ -3,7 +3,7 @@ package com.qiscus.chat.sample.repository;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qiscus.chat.sample.model.Person;
+import com.qiscus.chat.sample.model.User;
 import com.qiscus.chat.sample.db.PersonPersistance;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -22,21 +22,21 @@ public class LocalRepository implements Repository {
     }
 
     @Override
-    public void loadAll(RepositoryCallback<List<Person>> callback) {
+    public void loadAll(RepositoryCallback<List<User>> callback) {
         RealmResults<PersonPersistance> personPersistances = realm.where(PersonPersistance.class).findAll();
-        ArrayList<Person> alumnus = new ArrayList<>();
+        ArrayList<User> alumnus = new ArrayList<>();
         for (int i = 0; i < personPersistances.size(); i++) {
             PersonPersistance item = personPersistances.get(i);
-            alumnus.add(new Person(item.getId(),item.getName(),item.getEmail(),item.getJob()));
+            alumnus.add(new User(item.getId(),item.getName(),item.getEmail(),item.getJob()));
         }
         callback.onSucceed(alumnus);
     }
 
     @Override
-    public void save(final List<Person> persons) {
+    public void save(final List<User> users) {
         realm.beginTransaction();
-        for (Person p :
-                persons) {
+        for (User p :
+                users) {
             PersonPersistance personPersistance;
             personPersistance = realm.where(PersonPersistance.class).equalTo("id", p.getId()).findFirst();
             if (personPersistance == null) {
@@ -53,7 +53,7 @@ public class LocalRepository implements Repository {
     }
 
     @Override
-    public void save(Person person) {
+    public void save(User user) {
 
     }
 }

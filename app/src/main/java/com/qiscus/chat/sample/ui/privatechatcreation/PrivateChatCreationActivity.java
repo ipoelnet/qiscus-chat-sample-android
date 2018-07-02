@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.SearchView;
 
+import com.qiscus.chat.sample.model.User;
 import com.qiscus.sdk.Qiscus;
 
 import org.json.JSONArray;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
 import com.qiscus.chat.sample.repository.AlumnusRepository;
 import com.qiscus.chat.sample.repository.RepositoryTransactionListener;
 import com.qiscus.chat.sample.ui.groupchatcreation.GroupChatCreationActivity;
@@ -42,12 +42,12 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private RecyclerAdapter mAdapter;
-    private ArrayList<Person> alumnusList;
+    private ArrayList<User> alumnusList;
     private AlumnusRepository alumnusRepository;
     public static String GROUP_CHAT_ID="GROUP_CHAT_ID";
     public static String STRANGER_CHAT_ID="STRANGER_CHAT_ID";
-    private Person groupChatHolder = new Person(GROUP_CHAT_ID,"Create Group Chat",GROUP_CHAT_ID,"placeholder");
-    private Person strangerChatHolder = new Person(STRANGER_CHAT_ID,"Chat With Stranger",STRANGER_CHAT_ID,"placeholder");
+    private User groupChatHolder = new User(GROUP_CHAT_ID,"Create Group Chat",GROUP_CHAT_ID,"placeholder");
+    private User strangerChatHolder = new User(STRANGER_CHAT_ID,"Chat With Stranger",STRANGER_CHAT_ID,"placeholder");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,8 +67,8 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         alumnusRepository = new AlumnusRepository();
         alumnusRepository.setListener(this);
-        ArrayList<Person> alumnusListTemp = alumnusRepository.getCachedData();
-        alumnusList = new ArrayList<Person>(alumnusListTemp);
+        ArrayList<User> alumnusListTemp = alumnusRepository.getCachedData();
+        alumnusList = new ArrayList<User>(alumnusListTemp);
         //alumnusList = alumnusRepository.getCachedData();
         alumnusList.add(0,groupChatHolder);
         alumnusList.add(1,strangerChatHolder);
@@ -85,7 +85,7 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
     }
 
     @Override
-    public void onLoadAlumnusSucceeded(List<Person> alumnus) {
+    public void onLoadAlumnusSucceeded(List<User> alumnus) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -116,7 +116,7 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
 
                 query = query.toString().toLowerCase();
 
-                final ArrayList<Person> filteredList = new ArrayList<>();
+                final ArrayList<User> filteredList = new ArrayList<>();
 
                 for (int i = 0; i < alumnusList.size(); i++) {
 
@@ -145,7 +145,7 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
             public boolean onQueryTextChange(String newText) {
                 newText = newText.toString().toLowerCase();
 
-                final ArrayList<Person> filteredList = new ArrayList<>();
+                final ArrayList<User> filteredList = new ArrayList<>();
 
                 for (int i = 0; i < alumnusList.size(); i++) {
 
@@ -169,7 +169,7 @@ public class PrivateChatCreationActivity extends AppCompatActivity implements Re
 
     }
     @Override
-    public void onContactClicked(final Person user) {
+    public void onContactClicked(final User user) {
         if (user.getEmail().equals(GROUP_CHAT_ID))
         {
             startActivity(new Intent(this, GroupChatCreationActivity.class));

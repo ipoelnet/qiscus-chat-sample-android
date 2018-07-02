@@ -3,6 +3,7 @@ package com.qiscus.chat.sample;
 import android.app.Application;
 import android.content.Context;
 
+import com.qiscus.chat.AppComponent;
 import com.qiscus.chat.sample.ui.homepagetab.HomePageTabActivity;
 import com.qiscus.chat.sample.util.ChatRoomNavigator;
 import com.qiscus.sdk.Qiscus;
@@ -25,7 +26,7 @@ import io.realm.Realm;
 public class SampleApp extends Application {
     private RealTimeChatroomHandler chatroomHandler;
     private static SampleApp INSTANCE;
-
+    private AppComponent component;
     public static SampleApp getInstance() {
         return INSTANCE;
     }
@@ -34,6 +35,7 @@ public class SampleApp extends Application {
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
+        component = new AppComponent(this);
         Qiscus.init(this, Configuration.QISCUS_APP_ID);
         chatroomHandler = new RealTimeChatroomHandler();
 
@@ -75,5 +77,9 @@ public class SampleApp extends Application {
 
     public RealTimeChatroomHandler getChatroomHandler() {
         return chatroomHandler;
+    }
+
+    public AppComponent getComponent() {
+        return component;
     }
 }

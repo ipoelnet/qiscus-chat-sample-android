@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
+import com.qiscus.chat.sample.model.User;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
-    private final ArrayList<Person> persons;
+    private final ArrayList<User> users;
     private final ViewHolder.OnContactClickedListener listener;
 
-    public RecyclerAdapter(ArrayList<Person> persons, ViewHolder.OnContactClickedListener listener) {
-        this.persons = persons;
+    public RecyclerAdapter(ArrayList<User> users, ViewHolder.OnContactClickedListener listener) {
+        this.users = users;
         this.listener = listener;
     }
 
@@ -27,13 +27,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Person person = persons.get(position);
-        holder.bindAlumni(person);
+        User user = users.get(position);
+        holder.bindAlumni(user);
     }
 
     @Override
     public int getItemCount() {
-        return this.persons.size();
+        return this.users.size();
     }
 
 

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import com.qiscus.chat.sample.R;
-import com.qiscus.chat.sample.model.Person;
+import com.qiscus.chat.sample.model.User;
 
 
 /**
@@ -24,7 +24,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     private TextView itemName;
     private TextView itemJob;
     private com.qiscus.sdk.ui.view.QiscusCircularImageView picture;
-    private Person selectedContact;
+    private User selectedContact;
     private CheckBox checkBox;
     private final OnContactClickedListener listener;
 
@@ -40,19 +40,19 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         checkBox.setVisibility(View.GONE);
     }
 
-    public void bindAlumni(Person person){
-        this.selectedContact = person;
-        this.itemName.setText(person.getName());
-        this.itemJob.setText(person.getJob());
+    public void bindAlumni(User user){
+        this.selectedContact = user;
+        this.itemName.setText(user.getName());
+        this.itemJob.setText(user.getJob());
         Context context = this.picture.getContext();
-        if (person.getEmail().equals(PrivateChatCreationActivity.GROUP_CHAT_ID)) {
+        if (user.getEmail().equals(PrivateChatCreationActivity.GROUP_CHAT_ID)) {
             Picasso.with(context).load(R.drawable.ic_create_group).fit().centerCrop().into(picture);
             picture.setColorFilter(ContextCompat.getColor(context, R.color.orangeIcon), PorterDuff.Mode.MULTIPLY);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 itemName.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
             }
         }
-        else if (person.getEmail().equals(PrivateChatCreationActivity.STRANGER_CHAT_ID))
+        else if (user.getEmail().equals(PrivateChatCreationActivity.STRANGER_CHAT_ID))
         {
             Picasso.with(context).load(R.drawable.ic_stranger).fit().centerCrop().into(picture);
             picture.setColorFilter(ContextCompat.getColor(context, R.color.orangeIcon), PorterDuff.Mode.MULTIPLY);
@@ -61,7 +61,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
             }
         }
         else {
-            String avatarUrl = person.getAvatarUrl();
+            String avatarUrl = user.getAvatarUrl();
             Picasso.with(this.picture.getContext()).load(avatarUrl).fit().centerCrop().into(picture);
         }
     }
@@ -72,6 +72,6 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     }
 
     public interface OnContactClickedListener{
-        public void onContactClicked(Person user);
+        public void onContactClicked(User user);
     }
 }
