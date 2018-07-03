@@ -106,7 +106,8 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
 
     @Override
     public void removeMember(long roomId, User user, Action<Void> onSuccess, Action<Throwable> onError) {
-        QiscusRestApi.INSTANCE.removeMember(roomId, user.getId())
+        QiscusApi.getInstance()
+                .removeRoomMember(roomId, Arrays.asList(user.getId()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(jsonObject -> onSuccess.call(null), onError::call);
