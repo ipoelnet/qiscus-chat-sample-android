@@ -1,9 +1,9 @@
 # Qiscus Android Sample App
 
-![login](https://i.imgur.com/D01iD8f.png?5)
-![list room](https://i.imgur.com/f4EVBuw.png?3)
-![new chat](https://i.imgur.com/6coeNuZ.png?2)
-![room chat](https://i.imgur.com/FADRzYM.png?2)
+![login](https://i.imgur.com/wWZ75U1.png?1)
+![list room](https://i.imgur.com/KB0kzRz.png?1)
+![new chat](https://i.imgur.com/BXcL5i8.png?1)
+![room chat](https://i.imgur.com/uMa7016.png?1)
 
 ## Sample Android App Features
 - [x] Splash/Launch Screen
@@ -27,7 +27,7 @@ To meet your expectations, we suggest you try out our sample app. The sample app
 
 If you simply want to try the android sample app, you can direct to our [github repository](https://github.com/qiscus/qiscus-sdk-android-sample-v2) to clone our sample app. You can explore features of Qiscus Chat SDK.
 
-If you want your sample app running with your own APP ID, you can change it
+If you want your sample app running with your own APP ID, you can change it inside SampleApp.java.
 
 ```java
 public class SampleApp extends Application {
