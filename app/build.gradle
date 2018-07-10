@@ -13,7 +13,7 @@ properties.load( inputStream )
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.qiscus.chat.ngobrel"
+        applicationId "com.qiscus.chat.sample"
         minSdkVersion 17
         targetSdkVersion 27
         versionCode 1
@@ -46,7 +46,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    implementation 'com.qiscus.sdk:chat:2.24.3-e2e-encryption-snapshot3'
+    implementation 'com.qiscus.sdk:chat:2.25.0'
     //implementation project(':chat')
 
     implementation 'com.facebook.stetho:stetho:1.5.0'
