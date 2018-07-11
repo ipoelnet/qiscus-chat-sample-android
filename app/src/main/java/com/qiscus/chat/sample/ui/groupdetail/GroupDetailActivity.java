@@ -17,8 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.R;
+import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.ui.addmember.AddGroupMemberActivity;
 import com.qiscus.nirmana.Nirmana;
@@ -131,7 +131,7 @@ public class GroupDetailActivity extends AppCompatActivity implements GroupDetai
     }
 
     private void updateRoomName() {
-
+        presenter.updateRoomName(qiscusChatRoom.getId(), groupName.getText().toString());
     }
 
     @Override
@@ -158,15 +158,26 @@ public class GroupDetailActivity extends AppCompatActivity implements GroupDetai
     }
 
     @Override
+    public void onRoomNameUpdated(QiscusChatRoom qiscusChatRoom) {
+        this.qiscusChatRoom = qiscusChatRoom;
+        bindRoomData();
+        setIntentResult();
+    }
+
+    private void setIntentResult() {
+        Intent intent = new Intent();
+        intent.putExtra(CHAT_ROOM_DATA, qiscusChatRoom);
+        setResult(RESULT_OK, intent);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_ADD_PARTICIPANTS && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 qiscusChatRoom = data.getParcelableExtra(CHAT_ROOM_DATA);
                 bindRoomData();
-                Intent intent = new Intent();
-                intent.putExtra(CHAT_ROOM_DATA, qiscusChatRoom);
-                setResult(RESULT_OK, intent);
+                setIntentResult();
             }
         }
     }

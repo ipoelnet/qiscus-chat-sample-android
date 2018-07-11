@@ -2,6 +2,7 @@ package com.qiscus.chat.sample.ui.groupdetail;
 
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
+import com.qiscus.sdk.data.model.QiscusChatRoom;
 
 /**
  * Created on : May 16, 2018
@@ -31,6 +32,18 @@ public class GroupDetailPresenter {
                 });
     }
 
+    public void updateRoomName(long roomId, String roomName) {
+        view.showLoading();
+        chatRoomRepository.updateGroupChatRoomName(roomId, roomName,
+                qiscusChatRoom -> {
+                    view.dismissLoading();
+                    view.onRoomNameUpdated(qiscusChatRoom);
+                }, throwable -> {
+                    view.dismissLoading();
+                    view.showErrorMessage(throwable.getMessage());
+                });
+    }
+
     public interface View {
         void onMemberRemoved(User user);
 
@@ -39,5 +52,7 @@ public class GroupDetailPresenter {
         void dismissLoading();
 
         void showErrorMessage(String errorMessage);
+
+        void onRoomNameUpdated(QiscusChatRoom qiscusChatRoom);
     }
 }
