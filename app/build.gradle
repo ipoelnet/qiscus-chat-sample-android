@@ -1,15 +1,5 @@
 apply plugin: 'com.android.application'
 
-def nevercodeBuild = System.getenv()["NEVERCODE_BUILD"]
-def localPropertiesPath = 'local.properties'
-if (nevercodeBuild) {
-    localPropertiesPath = file(System.getenv()["GH_LOCAL_PROPERTIES_PATH"])
-}
-
-Properties properties = new Properties()
-InputStream inputStream = project.rootProject.file(localPropertiesPath).newDataInputStream()
-properties.load( inputStream )
-
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -24,9 +14,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        buildTypes.each {
-            it.buildConfigField("String", "QISCUS_SECRET", properties.getProperty('qiscus_secret'))
         }
     }
     configurations.all {
@@ -46,9 +33,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    implementation 'com.qiscus.sdk:chat:2.25.0'
-    //implementation project(':chat')
-
+    implementation 'com.qiscus.sdk:chat:2.26.2'
     implementation 'com.facebook.stetho:stetho:1.5.0'
 }
 
