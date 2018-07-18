@@ -1,5 +1,7 @@
 package com.qiscus.chat.sample.data.repository.impl;
 
+import android.content.Intent;
+
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
 import com.qiscus.chat.sample.util.Action;
@@ -49,8 +51,14 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
 
     @Override
     public void getChatRooms(Action<List<QiscusChatRoom>> onSuccess, Action<Throwable> onError) {
-        Observable.fromCallable(() -> Qiscus.getDataStore().getChatRooms(100))
+
+        Observable<List<QiscusChatRoom>> api = QiscusApi.getInstance().getChatRooms(0, 100, true);
+
+        Observable<List<QiscusChatRoom>> local = Observable.just(Qiscus.getDataStore().getChatRooms(100));
+
+        Observable.merge(api, local)
                 .flatMap(Observable::from)
+                .doOnNext(qiscusChatRoom -> Qiscus.getDataStore().addOrUpdate(qiscusChatRoom))
                 .doOnNext(qiscusChatRoom ->
                         qiscusChatRoom.setLastComment(Qiscus.getDataStore().getLatestComment(qiscusChatRoom.getId())))
                 .filter(qiscusChatRoom -> qiscusChatRoom.isGroup() || qiscusChatRoom.getLastComment() != null)
