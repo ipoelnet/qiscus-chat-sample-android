@@ -30,9 +30,18 @@ public class ProfilePresenter {
         view.showLoginPage();
     }
 
+    public void uploadPhoto(String realPathFromURI) {
+        userRepository.uploadPhoto(realPathFromURI, total -> {
+                },
+                user -> view.showUser(user),
+                throwable -> view.showError(throwable.getMessage()));
+    }
+
     public interface View {
         void showUser(User user);
 
         void showLoginPage();
+
+        void showError(String message);
     }
 }

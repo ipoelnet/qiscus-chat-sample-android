@@ -14,7 +14,9 @@ import com.qiscus.chat.sample.util.Action;
 import com.qiscus.chat.sample.util.AvatarUtil;
 import com.qiscus.sdk.Qiscus;
 import com.qiscus.sdk.data.model.QiscusAccount;
+import com.qiscus.sdk.data.remote.QiscusApi;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ import rx.schedulers.Schedulers;
  * GitHub     : https://github.com/zetbaitsu
  */
 public class UserRepositoryImpl implements UserRepository {
+
     private SharedPreferences sharedPreferences;
     private Gson gson;
 
@@ -85,10 +88,17 @@ public class UserRepositoryImpl implements UserRepository {
         sharedPreferences.edit().clear().apply();
     }
 
-    private void setCurrentUser(User user) {
-        sharedPreferences.edit()
-                .putString("current_user", gson.toJson(user))
-                .apply();
+    @Override
+    public void uploadPhoto(String realPathFromURI, QiscusApi.ProgressListener progressListener,
+                            Action<User> onSuccess, Action<Throwable> onError) {
+        QiscusApi.getInstance()
+                .uploadFile(new File(realPathFromURI), progressListener)
+                .flatMap(uri -> Qiscus.updateUserAsObservable(getCurrentUser().getName(), uri.toString()))
+                .map(this::mapFromQiscusAccount)
+                .doOnNext(this::setCurrentUser)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(onSuccess::call, onError::call);
     }
 
     private Observable<User> getCurrentUserObservable() {
@@ -105,6 +115,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     private User getCurrentUser() {
         return gson.fromJson(sharedPreferences.getString("current_user", ""), User.class);
+    }
+
+    private void setCurrentUser(User user) {
+        sharedPreferences.edit()
+                .putString("current_user", gson.toJson(user))
+                .apply();
     }
 
     private Observable<List<User>> getUsersObservable() {

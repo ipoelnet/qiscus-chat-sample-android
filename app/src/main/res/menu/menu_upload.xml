@@ -2,11 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/take_picture"
-        android:title="Take Picture"/>
+        android:title="Take Picture" />
 
     <item
         android:id="@+id/choose_picture"
-        android:title="Choose Picture"/>
-
-
+        android:title="Choose Picture" />
 </menu>
