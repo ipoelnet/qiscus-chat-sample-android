@@ -1,7 +1,5 @@
 package com.qiscus.chat.sample.data.repository.impl;
 
-import android.content.Intent;
-
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
 import com.qiscus.chat.sample.util.Action;
@@ -39,7 +37,7 @@ public class ChatRoomRepositoryImpl implements ChatRoomRepository {
                 .getChatRoom(roomId)
                 .doOnNext(qiscusChatRoom -> {
                     QiscusComment lastComment = qiscusChatRoom.getLastComment();
-                    if (lastComment != null ) {
+                    if (lastComment != null) {
                         qiscusChatRoom.setLastComment(null);
                     }
                 })

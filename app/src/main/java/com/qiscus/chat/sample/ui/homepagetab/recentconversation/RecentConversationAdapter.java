@@ -17,6 +17,7 @@ import com.qiscus.sdk.data.model.QiscusChatRoom;
  * GitHub     : https://github.com/zetbaitsu
  */
 public class RecentConversationAdapter extends SortedRecyclerViewAdapter<QiscusChatRoom, RecentConversationViewHolder> {
+
     private Context context;
     private OnItemClickListener onItemClickListener;
 
