@@ -3,7 +3,7 @@ package com.qiscus.chat.sample.ui.addmember;
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
 import com.qiscus.chat.sample.data.repository.UserRepository;
-import com.qiscus.sdk.data.model.QiscusRoomMember;
+import com.qiscus.sdk.chat.core.data.model.QiscusRoomMember;
 
 import java.util.ArrayList;
 import java.util.List;

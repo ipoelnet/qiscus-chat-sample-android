@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.qiscus.chat.sample.ui.groupdetail.GroupDetailActivity;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.data.model.QiscusComment;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusComment;
 import com.qiscus.sdk.ui.QiscusChannelActivity;
 import com.qiscus.sdk.ui.QiscusChatActivity;
 import com.qiscus.sdk.ui.QiscusGroupChatActivity;

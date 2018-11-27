@@ -16,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.R;
+import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.ui.homepagetab.HomePageTabActivity;
 import com.qiscus.chat.sample.util.ChatRoomNavigator;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
 
 import java.util.ArrayList;
 import java.util.List;

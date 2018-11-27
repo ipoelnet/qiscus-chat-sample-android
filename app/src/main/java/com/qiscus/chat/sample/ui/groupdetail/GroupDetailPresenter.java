@@ -2,7 +2,7 @@ package com.qiscus.chat.sample.ui.groupdetail;
 
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
 
 /**
  * Created on : May 16, 2018

@@ -21,11 +21,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.qiscus.chat.sample.AppComponent;
-import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.R;
+import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.data.model.User;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.data.model.QiscusRoomMember;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusRoomMember;
 
 import java.util.List;
 

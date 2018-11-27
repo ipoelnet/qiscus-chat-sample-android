@@ -2,8 +2,8 @@ package com.qiscus.chat.sample.ui.groupchatcreation.groupinfo;
 
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.util.QiscusErrorLogger;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.util.QiscusErrorLogger;
 
 import java.util.List;
 

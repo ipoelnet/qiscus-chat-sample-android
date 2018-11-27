@@ -1,13 +1,14 @@
 package com.qiscus.chat.sample.ui.homepagetab.recentconversation;
 
 import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.event.QiscusCommentReceivedEvent;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.event.QiscusCommentReceivedEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
+
 
 /**
  * Created on : May 16, 2018

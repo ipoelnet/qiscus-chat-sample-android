@@ -13,11 +13,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.R;
+import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.ui.groupchatroom.GroupChatRoomActivity;
 import com.qiscus.chat.sample.ui.privatechatcreation.PrivateChatCreationActivity;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
 import com.qiscus.sdk.ui.QiscusChatActivity;
 
 import java.util.List;

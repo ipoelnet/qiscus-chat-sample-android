@@ -2,7 +2,7 @@ package com.qiscus.chat.sample.data.repository;
 
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.util.Action;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
 
 import java.util.List;
 

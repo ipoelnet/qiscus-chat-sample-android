@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.qiscus.chat.sample.R;
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.ui.common.OnItemClickListener;
@@ -33,10 +34,11 @@ public class ContactViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public void bind(User user) {
         Nirmana.getInstance().get()
+                .setDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.ic_qiscus_avatar)
+                        .error(R.drawable.ic_qiscus_avatar)
+                        .dontAnimate())
                 .load(user.getAvatarUrl())
-                .placeholder(R.drawable.ic_qiscus_avatar)
-                .error(R.drawable.ic_qiscus_avatar)
-                .dontAnimate()
                 .into(picture);
         itemName.setText(user.getName());
     }

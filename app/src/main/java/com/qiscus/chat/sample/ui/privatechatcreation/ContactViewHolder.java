@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.qiscus.chat.sample.R;
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.ui.common.OnItemClickListener;
@@ -36,17 +37,24 @@ public class ContactViewHolder extends RecyclerView.ViewHolder implements View.O
     public void bind(User user) {
         itemName.setText(user.getName());
         if (user.getId().equals(PrivateChatCreationActivity.GROUP_CHAT_ID)) {
-            Nirmana.getInstance().get().load(R.drawable.ic_create_group).centerCrop().into(picture);
+            Nirmana.getInstance().get()
+                    .setDefaultRequestOptions(new RequestOptions().centerCrop())
+                    .load(R.drawable.ic_create_group)
+                    .into(picture);
             picture.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.orangeIcon), PorterDuff.Mode.MULTIPLY);
         } else if (user.getId().equals(PrivateChatCreationActivity.STRANGER_CHAT_ID)) {
-            Nirmana.getInstance().get().load(R.drawable.ic_stranger).centerCrop().into(picture);
+            Nirmana.getInstance().get()
+                    .setDefaultRequestOptions(new RequestOptions().centerCrop())
+                    .load(R.drawable.ic_stranger)
+                    .into(picture);
             picture.setColorFilter(ContextCompat.getColor(itemView.getContext(), R.color.orangeIcon), PorterDuff.Mode.MULTIPLY);
         } else {
             Nirmana.getInstance().get()
+                    .setDefaultRequestOptions(new RequestOptions()
+                            .placeholder(R.drawable.ic_qiscus_avatar)
+                            .error(R.drawable.ic_qiscus_avatar)
+                            .dontAnimate())
                     .load(user.getAvatarUrl())
-                    .placeholder(R.drawable.ic_qiscus_avatar)
-                    .error(R.drawable.ic_qiscus_avatar)
-                    .dontAnimate()
                     .into(picture);
             picture.setColorFilter(null);
         }

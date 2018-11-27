@@ -6,10 +6,10 @@ import android.support.v4.app.TaskStackBuilder;
 
 import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.ui.groupchatroom.GroupChatRoomActivity;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.data.model.QiscusComment;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusComment;
+import com.qiscus.sdk.chat.core.util.QiscusAndroidUtil;
 import com.qiscus.sdk.ui.QiscusChatActivity;
-import com.qiscus.sdk.util.QiscusAndroidUtil;
 
 /**
  * Created by catur on 1/11/18.
@@ -22,32 +22,6 @@ public final class ChatRoomNavigator {
 
     public static ChatRoomActivityBuilder openChatQiscusCommentRoom(Context context, QiscusComment qiscusComment) {
         return new ChatRoomActivityBuilder(context, qiscusComment);
-    }
-
-    public static class ChatRoomActivityBuilder {
-        private Context context;
-        private QiscusComment qiscusComment;
-        private QiscusChatRoom qiscusChatRoom;
-        private Class parentClass;
-
-        public ChatRoomActivityBuilder(Context context, QiscusComment qiscusComment) {
-            this.context = context;
-            this.qiscusComment = qiscusComment;
-        }
-
-        public ChatRoomActivityBuilder(Context context, QiscusChatRoom qiscusChatRoom) {
-            this.context = context;
-            this.qiscusChatRoom = qiscusChatRoom;
-        }
-
-        public ChatRoomActivityBuilder withParentClass(Class parentClass) {
-            this.parentClass = parentClass;
-            return this;
-        }
-
-        public void start() {
-            QiscusAndroidUtil.runOnBackgroundThread(() -> ChatRoomNavigator.start(ChatRoomActivityBuilder.this));
-        }
     }
 
     private static void start(ChatRoomActivityBuilder builder) {
@@ -105,5 +79,31 @@ public final class ChatRoomNavigator {
         taskStackBuilder.addNextIntentWithParentStack(parentIntent);
         taskStackBuilder.addNextIntent(chatIntent);
         taskStackBuilder.startActivities();
+    }
+
+    public static class ChatRoomActivityBuilder {
+        private Context context;
+        private QiscusComment qiscusComment;
+        private QiscusChatRoom qiscusChatRoom;
+        private Class parentClass;
+
+        public ChatRoomActivityBuilder(Context context, QiscusComment qiscusComment) {
+            this.context = context;
+            this.qiscusComment = qiscusComment;
+        }
+
+        public ChatRoomActivityBuilder(Context context, QiscusChatRoom qiscusChatRoom) {
+            this.context = context;
+            this.qiscusChatRoom = qiscusChatRoom;
+        }
+
+        public ChatRoomActivityBuilder withParentClass(Class parentClass) {
+            this.parentClass = parentClass;
+            return this;
+        }
+
+        public void start() {
+            QiscusAndroidUtil.runOnBackgroundThread(() -> ChatRoomNavigator.start(ChatRoomActivityBuilder.this));
+        }
     }
 }

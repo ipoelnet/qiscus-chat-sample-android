@@ -1,10 +1,9 @@
 package com.qiscus.chat.sample.data.repository;
 
-import android.net.Uri;
 
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.util.Action;
-import com.qiscus.sdk.data.remote.QiscusApi;
+import com.qiscus.sdk.chat.core.data.remote.QiscusApi;
 
 import java.util.List;
 

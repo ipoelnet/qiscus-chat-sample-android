@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.qiscus.chat.sample.R;
 import com.qiscus.chat.sample.ui.common.OnItemClickListener;
 import com.qiscus.chat.sample.ui.common.SortedRecyclerViewAdapter;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
 
 /**
  * Created on : May 16, 2018

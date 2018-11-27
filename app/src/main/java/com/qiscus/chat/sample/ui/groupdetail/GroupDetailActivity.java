@@ -23,9 +23,9 @@ import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.ui.addmember.AddGroupMemberActivity;
 import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
-import com.qiscus.sdk.data.model.QiscusAccount;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.data.model.QiscusRoomMember;
+import com.qiscus.sdk.chat.core.data.model.QiscusAccount;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusRoomMember;
 
 /**
  * Created on : May 16, 2018

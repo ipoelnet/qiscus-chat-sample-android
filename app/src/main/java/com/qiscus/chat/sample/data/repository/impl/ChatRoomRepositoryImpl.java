@@ -5,9 +5,9 @@ import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
 import com.qiscus.chat.sample.util.Action;
 import com.qiscus.chat.sample.util.AvatarUtil;
 import com.qiscus.sdk.Qiscus;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.data.model.QiscusComment;
-import com.qiscus.sdk.data.remote.QiscusApi;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusComment;
+import com.qiscus.sdk.chat.core.data.remote.QiscusApi;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -13,8 +13,8 @@ import com.qiscus.chat.sample.data.repository.remote.ContactRestApi;
 import com.qiscus.chat.sample.util.Action;
 import com.qiscus.chat.sample.util.AvatarUtil;
 import com.qiscus.sdk.Qiscus;
-import com.qiscus.sdk.data.model.QiscusAccount;
-import com.qiscus.sdk.data.remote.QiscusApi;
+import com.qiscus.sdk.chat.core.data.model.QiscusAccount;
+import com.qiscus.sdk.chat.core.data.remote.QiscusApi;
 
 import java.io.File;
 import java.util.ArrayList;

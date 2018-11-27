@@ -10,8 +10,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.qiscus.chat.sample.SampleApp;
+import com.bumptech.glide.request.RequestOptions;
 import com.qiscus.chat.sample.R;
+import com.qiscus.chat.sample.SampleApp;
 import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.data.repository.ChatRoomRepository;
 import com.qiscus.chat.sample.ui.homepagetab.HomePageTabActivity;
@@ -53,7 +54,10 @@ public class ContactDialogProfileFragment extends DialogFragment {
         contactEmail.setText(user.getId());
         ImageView contactAvatar = rootView.findViewById(R.id.contact_picture);
         String avatarUrl = user.getAvatarUrl();
-        Nirmana.getInstance().get().load(avatarUrl).centerCrop().into(contactAvatar);
+        Nirmana.getInstance().get()
+                .setDefaultRequestOptions(new RequestOptions().centerCrop())
+                .load(avatarUrl)
+                .into(contactAvatar);
 
         rootView.findViewById(R.id.startChat).setOnClickListener(v -> {
             chatRoomRepository.createChatRoom(user,

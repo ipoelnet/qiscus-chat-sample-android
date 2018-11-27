@@ -8,13 +8,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.qiscus.chat.sample.R;
 import com.qiscus.chat.sample.ui.common.OnItemClickListener;
 import com.qiscus.nirmana.Nirmana;
-import com.qiscus.sdk.data.model.QiscusChatRoom;
-import com.qiscus.sdk.data.model.QiscusComment;
-import com.qiscus.sdk.util.QiscusRawDataExtractor;
-import com.qiscus.sdk.util.QiscusTextUtil;
+import com.qiscus.sdk.chat.core.data.model.QiscusChatRoom;
+import com.qiscus.sdk.chat.core.data.model.QiscusComment;
+import com.qiscus.sdk.chat.core.util.QiscusRawDataExtractor;
+import com.qiscus.sdk.chat.core.util.QiscusTextUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,10 +56,11 @@ public class RecentConversationViewHolder extends RecyclerView.ViewHolder implem
 
     public void bind(QiscusChatRoom chatRoom) {
         Nirmana.getInstance().get()
+                .setDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.ic_qiscus_avatar)
+                        .error(R.drawable.ic_qiscus_avatar)
+                        .dontAnimate())
                 .load(chatRoom.getAvatarUrl())
-                .placeholder(R.drawable.ic_qiscus_avatar)
-                .error(R.drawable.ic_qiscus_avatar)
-                .dontAnimate()
                 .into(picture);
         itemName.setText(chatRoom.getName());
         int unreadCount = chatRoom.getUnreadCount();

@@ -33,9 +33,9 @@ public class SampleApp extends Application {
             Stetho.initializeWithDefaults(this);
         }
 
-        Qiscus.setEnableLog(BuildConfig.DEBUG);
         Qiscus.init(this, Configuration.QISCUS_APP_ID);
         Qiscus.getChatConfig()
+                .setEnableLog(BuildConfig.DEBUG)
                 .setStatusBarColor(R.color.colorPrimaryDark)
                 .setAppBarColor(R.color.colorPrimary)
                 .setLeftBubbleColor(R.color.emojiSafeYellow)

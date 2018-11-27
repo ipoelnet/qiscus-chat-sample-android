@@ -20,8 +20,8 @@ import com.qiscus.chat.sample.data.model.User;
 import com.qiscus.chat.sample.ui.login.LoginActivity;
 import com.qiscus.nirmana.Nirmana;
 import com.qiscus.sdk.Qiscus;
-import com.qiscus.sdk.data.local.QiscusCacheManager;
-import com.qiscus.sdk.util.QiscusFileUtil;
+import com.qiscus.sdk.chat.core.data.local.QiscusCacheManager;
+import com.qiscus.sdk.chat.core.util.QiscusFileUtil;
 import com.qiscus.sdk.util.QiscusImageUtil;
 
 import java.io.File;
